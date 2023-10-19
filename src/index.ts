@@ -5,8 +5,9 @@ import Cors from 'cors';
 import Helmet from 'helmet';
 import Compression from 'compression';
 import { ApiConfigs } from './configs';
-import mainRoutes from './routes';
 import { MongoDBParty } from './third-party';
+import * as ApiController from './controllers';
+import { ErrorHandler, ResponseHandler } from './middlewares';
 
 const ApiApp = Express();
 const ApiServer = Http.createServer(ApiApp);
@@ -21,7 +22,12 @@ ApiApp.use(Compression({ level: 1, threshold: 10 * 1000 /* 10MB */ }));
 
 /*      Main Endpoint      */
 
-mainRoutes(ApiApp);
+ApiApp.use('/api', ApiController.apiControllers);
+
+/*      Using Library Middlewares       */
+
+ApiApp.use(ResponseHandler);
+ApiApp.use(ErrorHandler);
 
 /*      Main Endpoint      */
 

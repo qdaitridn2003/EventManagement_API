@@ -11,7 +11,6 @@ const otpHandler = {
             encoding: 'base32',
             algorithm: 'sha256',
             step: 60,
-            //window: 2, step: 60 (60 seconds) => window * step = expired otp time
         });
         return otp;
     },
@@ -22,7 +21,8 @@ const otpHandler = {
             encoding: 'base32',
             algorithm: 'sha256',
             step: 60,
-            window: 2,
+            window: 5,
+            //window: 2, step: 60 (60 seconds) => window * step = expired otp time
         });
         if (resultVerify?.delta === undefined) return false;
         else return true;
