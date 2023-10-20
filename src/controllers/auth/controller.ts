@@ -262,5 +262,41 @@ export const changePassword = async (
     res: Response,
     next: NextFunction,
 ) => {
-    console.log('Change password !');
+    const { auth_id } = res.locals;
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+
+    try {
+        const foundAccount = await AuthQuery.findOne({ _id: auth_id });
+
+        if (!foundAccount) {
+            return next(createHttpError(400, 'Account is not exist'));
+        }
+
+        const validateResult = AuthValidator.changePasswordValidator.safeParse({
+            oldPassword,
+            newPassword,
+            confirmPassword,
+        });
+
+        if (!validateResult.success) {
+            return next(validateResult.error);
+        }
+
+        const comparePassword = HashPasswordHandler.comparePassword(
+            oldPassword,
+            foundAccount.password,
+        );
+
+        if (!comparePassword) {
+            return next(createHttpError(400, 'Old password is not correct'));
+        }
+
+        const hashPassword = HashPasswordHandler.hashPassword(newPassword);
+
+        await AuthQuery.updateOne({ _id: auth_id }, { password: hashPassword });
+
+        next(createHttpSuccess(200));
+    } catch (error) {
+        next(error);
+    }
 };
