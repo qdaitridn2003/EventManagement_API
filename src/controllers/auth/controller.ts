@@ -6,7 +6,7 @@ import {
     OtpHandler,
     createHttpSuccess,
 } from '../../utils';
-import { AuthQuery } from '../../models';
+import { AuthQuery, RoleQuery } from '../../models';
 import createHttpError from 'http-errors';
 import { NodeMailerParty } from '../../third-party';
 
@@ -15,7 +15,7 @@ export const signUpAccount = async (
     res: Response,
     next: NextFunction,
 ) => {
-    const { username, password, confirmPassword, role_id } = req.body;
+    const { username, password, confirmPassword, identify } = req.body;
     const validate = AuthValidator.registerAccountValidator.safeParse({
         username,
         password,
@@ -33,11 +33,15 @@ export const signUpAccount = async (
             return next(createHttpError(400, 'Email is already exist'));
         }
 
+        const foundRole = await RoleQuery.findOne({ identify });
+        if (!foundRole) {
+            return next(createHttpError(400, 'Role is not exist'));
+        }
         const hashPassword = HashPasswordHandler.hashPassword(password);
         const result = await AuthQuery.create({
             username,
             password: hashPassword,
-            role_id,
+            role_id: foundRole._id,
         });
 
         const otpSecret = await TokenHandler.signToken(

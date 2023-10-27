@@ -7,9 +7,9 @@ export const createRole = async (
     res: Response,
     next: NextFunction,
 ) => {
-    const { name, description } = req.body;
+    const { name, description, identify } = req.body;
     try {
-        const result = await RoleQuery.create({ name, description });
+        const result = await RoleQuery.create({ name, description, identify });
         next(createHttpSuccess(200, result));
     } catch (error) {
         next(error);
@@ -21,7 +21,7 @@ export const editRole = async (
     res: Response,
     next: NextFunction,
 ) => {
-    const { _id, name, description } = req.body;
+    const { _id, name, description, identify } = req.body;
 
     try {
         const result = await RoleQuery.updateOne(

@@ -8,10 +8,14 @@ export const roleRoutes = Express.Router();
 roleRoutes.route('/get-list-role').get(Controllers.getListRole);
 roleRoutes
     .route('/create')
-    .post(Authorization, CheckRole(Role.adminRole), Controllers.createRole);
+    .post(Authorization, CheckRole(Role.AdminIdentify), Controllers.createRole);
 roleRoutes
     .route('/edit')
-    .put(Authorization, CheckRole(Role.adminRole), Controllers.editRole);
+    .put(Authorization, CheckRole(Role.AdminIdentify), Controllers.editRole);
 roleRoutes
     .route('/delete')
-    .delete(Authorization, CheckRole(Role.adminRole), Controllers.deleteRole);
+    .delete(
+        Authorization,
+        CheckRole(Role.AdminIdentify),
+        Controllers.deleteRole,
+    );
