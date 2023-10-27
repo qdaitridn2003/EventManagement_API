@@ -23,6 +23,6 @@ authRoutes
     .route('/change-password')
     .put(
         Authorization,
-        CheckRole(Role.employeeRole),
+        CheckRole(Role.StaffIdentify),
         Controller.changePassword,
     );
