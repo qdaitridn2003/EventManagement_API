@@ -2,7 +2,9 @@ import { NextFunction, Request, Response } from 'express';
 import { RoleQuery } from '../models';
 import createHttpError from 'http-errors';
 
-const checkRole = (role: number) => {
+type RoleType = number | number[];
+
+const checkRole = (role: RoleType) => {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
             const { role_id } = res.locals;
