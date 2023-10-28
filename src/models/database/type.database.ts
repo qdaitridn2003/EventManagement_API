@@ -1,16 +1,14 @@
 import mongoose, { Schema } from 'mongoose';
 
-type RoleSchemaType = {
+type KindOfItemSchemaType = {
     _id: Schema.Types.ObjectId;
     name: string;
-    identify: number;
     description: string;
 };
 
-const roleSchema = new Schema<RoleSchemaType>(
+const itemTypeSchema = new Schema<KindOfItemSchemaType>(
     {
         _id: { type: Schema.Types.ObjectId, auto: true },
-        identify: { type: Schema.Types.Number },
         name: { type: Schema.Types.String },
         description: { type: Schema.Types.String },
     },
@@ -19,6 +17,6 @@ const roleSchema = new Schema<RoleSchemaType>(
     },
 );
 
-const roleModel = mongoose.model('role', roleSchema);
+const itemTypeModel = mongoose.model('type', itemTypeSchema);
 
-export default roleModel;
+export default itemTypeModel;
