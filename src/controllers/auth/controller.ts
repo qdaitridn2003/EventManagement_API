@@ -9,6 +9,7 @@ import {
 import { AuthQuery, RoleQuery } from '../../models';
 import createHttpError from 'http-errors';
 import { NodeMailerParty } from '../../third-party';
+import { isNull } from 'util';
 
 export const signUpAccount = async (
     req: Request,
@@ -51,7 +52,7 @@ export const signUpAccount = async (
         const otp = OtpHandler.generateOtp(otpSecret);
         NodeMailerParty.mailingVerifyAccount(username, otp);
 
-        next(createHttpSuccess(200, { account: result, otpSecret }));
+        next(createHttpSuccess(200, { username: result.username, otpSecret }));
     } catch (error) {
         next(error);
     }
