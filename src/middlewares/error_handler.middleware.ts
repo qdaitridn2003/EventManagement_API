@@ -14,10 +14,7 @@ const errorHandler = (
         const listErrorMessage = listErrors.map((error) => error.message);
         return res.status(400).json({
             status: 'failure',
-            message:
-                listErrorMessage.length > 1
-                    ? listErrorMessage
-                    : listErrorMessage[0],
+            message: listErrorMessage.length > 1 ? listErrorMessage : listErrorMessage[0],
         });
     } else if (errorPayload instanceof JsonWebTokenError) {
         if (errorPayload.name === 'TokenExpiredError') {

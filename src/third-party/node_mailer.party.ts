@@ -5,6 +5,9 @@ import { Html } from '../constants';
 
 const mailTransporter = nodemailer.createTransport({
     service: 'hotmail',
+    pool: true,
+    maxConnections: 10,
+    maxMessages: Infinity,
     auth: {
         user: NodeMailerConfigs.username,
         pass: NodeMailerConfigs.password,
