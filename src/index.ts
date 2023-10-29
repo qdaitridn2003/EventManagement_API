@@ -4,10 +4,12 @@ import Express from 'express';
 import Cors from 'cors';
 import Helmet from 'helmet';
 import Compression from 'compression';
+import * as SwaggerUI from 'swagger-ui-express';
 import { ApiConfigs } from './configs';
 import { MongoDBParty } from './third-party';
 import * as ApiController from './controllers';
 import { ErrorHandler, ResponseHandler } from './middlewares';
+import * as SwaggerConfig from './configs/swagger.config.json';
 
 const ApiApp = Express();
 const ApiServer = Http.createServer(ApiApp);
@@ -23,6 +25,7 @@ ApiApp.use(Compression({ level: 1, threshold: 10 * 1000 /* 10MB */ }));
 /*      Main Endpoint      */
 
 ApiApp.use('/api', ApiController.apiControllers);
+ApiApp.use('/api-doc', SwaggerUI.serve, SwaggerUI.setup(SwaggerConfig));
 
 /*      Using Library Middlewares       */
 

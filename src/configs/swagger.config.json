@@ -1,0 +1,22 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Event Management API Documentation",
+      "description": "This place is showing detail endpoint what this route receive",
+      "version": "1.0"
+    },
+    "paths": {
+      "/api/auth/sign-in": {
+        "post": {
+          "tags": ["Auth"],
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "200": {
+                "description": "OK"
+            }
+          }
+        }
+      }
+    }
+ }
