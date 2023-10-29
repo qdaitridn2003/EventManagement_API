@@ -1,2 +1,2 @@
-export * as Role from './identify.constant';
+export { default as Identify } from './identify.constant';
 export * as Html from './html.constant';

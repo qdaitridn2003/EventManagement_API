@@ -9,13 +9,10 @@ import {
 import { AuthQuery, RoleQuery } from '../../models';
 import createHttpError from 'http-errors';
 import { NodeMailerParty } from '../../third-party';
+import { RoleSchemaType } from '../../types';
 
-export const signUpAccount = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-) => {
-    const { username, password, confirmPassword, identify } = req.body;
+export const signUpAccount = async (req: Request, res: Response, next: NextFunction) => {
+    const { username, password, confirmPassword, roleId } = req.body;
     const validate = AuthValidator.registerAccountValidator.safeParse({
         username,
         password,
@@ -33,7 +30,7 @@ export const signUpAccount = async (
             return next(createHttpError(400, 'Email is already exist'));
         }
 
-        const foundRole = await RoleQuery.findOne({ identify });
+        const foundRole = await RoleQuery.findOne({ _id: roleId });
         if (!foundRole) {
             return next(createHttpError(400, 'Role is not exist'));
         }
@@ -41,27 +38,23 @@ export const signUpAccount = async (
         const result = await AuthQuery.create({
             username,
             password: hashPassword,
-            role_id: foundRole._id,
+            role: foundRole._id,
         });
 
         const otpSecret = await TokenHandler.signToken(
-            { auth_id: result._id, role_id: result.role_id },
+            { auth_id: result._id, role: result.role },
             'otp_secret',
         );
         const otp = OtpHandler.generateOtp(otpSecret);
         NodeMailerParty.mailingVerifyAccount(username, otp);
 
-        next(createHttpSuccess(200, { account: result, otpSecret }));
+        next(createHttpSuccess(200, { username: result.username, otpSecret }));
     } catch (error) {
         next(error);
     }
 };
 
-export const verifyAccount = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-) => {
+export const verifyAccount = async (req: Request, res: Response, next: NextFunction) => {
     const { otp, otpSecret } = req.body;
 
     try {
@@ -72,9 +65,7 @@ export const verifyAccount = async (
                 { _id: decodeOtpSecret.auth_id },
                 { isVerified: true, verifiedAt: new Date() },
             );
-            return next(
-                createHttpSuccess(200, null, 'Verify account successfully'),
-            );
+            return next(createHttpSuccess(200, null, 'Verify account successfully'));
         }
         return next(createHttpError(401, 'Otp was expired or invalid'));
     } catch (error) {
@@ -82,11 +73,7 @@ export const verifyAccount = async (
     }
 };
 
-export const resendOtpForConfirmEmail = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-) => {
+export const resendOtpForConfirmEmail = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { username } = req.body;
 
@@ -98,7 +85,7 @@ export const resendOtpForConfirmEmail = async (
         const otpSecret = await TokenHandler.signToken(
             {
                 auth_id: foundAccount._id,
-                role_id: foundAccount.role_id,
+                role: foundAccount.role,
             },
             'otp_secret',
         );
@@ -127,7 +114,7 @@ export const resendOtpForConfirmResetPass = async (
         const otpSecret = await TokenHandler.signToken(
             {
                 auth_id: foundAccount._id,
-                role_id: foundAccount.role_id,
+                role: foundAccount.role,
             },
             'otp_secret',
         );
@@ -140,11 +127,7 @@ export const resendOtpForConfirmResetPass = async (
     }
 };
 
-export const forgotPassword = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-) => {
+export const forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { username } = req.body;
 
@@ -156,7 +139,7 @@ export const forgotPassword = async (
         const otpSecret = await TokenHandler.signToken(
             {
                 auth_id: foundAccount._id,
-                role_id: foundAccount.role_id,
+                role: foundAccount.role,
             },
             'otp_secret',
         );
@@ -169,7 +152,7 @@ export const forgotPassword = async (
     }
 };
 
-export const verifyOtpForResetPassword = (
+export const verifyOtpForResetPassword = async (
     req: Request,
     res: Response,
     next: NextFunction,
@@ -177,7 +160,6 @@ export const verifyOtpForResetPassword = (
     try {
         const { otp, otpSecret } = req.body;
         const verifyOtpResult = OtpHandler.verifyOtp(otpSecret, otp);
-        const decodeOtpSecret = TokenHandler.decodeToken(otpSecret);
 
         if (!verifyOtpResult) {
             return next(createHttpError(401, 'Otp was expired or invalid'));
@@ -186,7 +168,6 @@ export const verifyOtpForResetPassword = (
         next(
             createHttpSuccess(200, {
                 canBeReset: true,
-                auth_id: decodeOtpSecret.auth_id,
             }),
         );
     } catch (error) {
@@ -194,13 +175,9 @@ export const verifyOtpForResetPassword = (
     }
 };
 
-export const resetPassword = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-) => {
+export const resetPassword = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { auth_id, password, confirmPassword } = req.body;
+        const { username, password, confirmPassword } = req.body;
         const validate = AuthValidator.passwordValidator.safeParse({
             password,
             confirmPassword,
@@ -211,47 +188,41 @@ export const resetPassword = async (
         }
 
         const hashPassword = HashPasswordHandler.hashPassword(password);
-        await AuthQuery.updateOne({ _id: auth_id }, { password: hashPassword });
+        await AuthQuery.updateOne({ username }, { password: hashPassword });
         next(createHttpSuccess(200, null));
     } catch (error) {
         next(error);
     }
 };
 
-export const signIn = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-) => {
+export const signIn = async (req: Request, res: Response, next: NextFunction) => {
     const { username, password } = req.body;
 
     try {
-        const result = await AuthQuery.findOne({ username });
+        const result = await AuthQuery.findOne({ username }).populate('role');
 
         if (!result) return next(createHttpError(400, 'Account is not exist'));
 
-        const comparedResult = HashPasswordHandler.comparePassword(
-            password,
-            result.password,
-        );
-        if (!comparedResult)
-            return next(createHttpError(400, 'Password is not correct'));
+        const comparedResult = HashPasswordHandler.comparePassword(password, result.password);
+
+        if (!comparedResult) return next(createHttpError(400, 'Password is not correct'));
 
         if (!result.isVerified && !result.verifiedAt)
-            return next(
-                createHttpError(
-                    401,
-                    'You need to confirm signed up email address',
-                ),
-            );
+            return next(createHttpError(401, 'You need to confirm signed up email address'));
 
         const accessToken = await TokenHandler.signToken(
-            { auth_id: result._id, role_id: result.role_id },
+            {
+                auth_id: result._id,
+                identify: (result.role as RoleSchemaType).identify,
+            },
             'access',
         );
 
         const refreshToken = await TokenHandler.signToken(
-            { auth_id: result._id, role_id: result.role_id },
+            {
+                auth_id: result._id,
+                identify: (result.role as RoleSchemaType).identify,
+            },
             'refresh',
         );
 
@@ -261,13 +232,9 @@ export const signIn = async (
     }
 };
 
-export const changePassword = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-) => {
-    const { auth_id } = res.locals;
+export const changePassword = async (req: Request, res: Response, next: NextFunction) => {
     const { oldPassword, newPassword, confirmPassword } = req.body;
+    const { auth_id } = res.locals;
 
     try {
         const foundAccount = await AuthQuery.findOne({ _id: auth_id });

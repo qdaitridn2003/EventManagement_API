@@ -1,16 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-
-type ClientSchemaType = {
-    _id: Schema.Types.ObjectId;
-    contracts: Schema.Types.ObjectId[];
-    email: string;
-    fullName: string;
-    dateOfBirth: Date;
-    gender: string;
-    phoneNumber: string;
-    address: string;
-    avatar: string;
-};
+import { ClientSchemaType } from '../../types';
 
 const clientSchema = new Schema<ClientSchemaType>(
     {

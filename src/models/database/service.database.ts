@@ -1,10 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-
-type ServiceSchemaType = {
-    _id: Schema.Types.ObjectId;
-    name: string;
-    description: string;
-};
+import { ServiceSchemaType } from '../../types';
 
 const serviceSchema = new Schema<ServiceSchemaType>(
     {

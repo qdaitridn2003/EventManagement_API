@@ -1,11 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-
-type RoleSchemaType = {
-    _id: Schema.Types.ObjectId;
-    name: string;
-    identify: number;
-    description: string;
-};
+import { RoleSchemaType } from '../../types';
 
 const roleSchema = new Schema<RoleSchemaType>(
     {
