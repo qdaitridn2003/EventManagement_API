@@ -1,21 +1,10 @@
 import mongoose, { Schema } from 'mongoose';
-
-type PaymentSchemaType = {
-    _id: Schema.Types.ObjectId;
-    event_id: Schema.Types.ObjectId;
-    initialPayment: number;
-    remainingPayment: number;
-    totalPayment: number;
-    discount: number;
-    status: string;
-    methodPayment: string;
-    note: string;
-};
+import { PaymentSchemaType } from '../../types';
 
 const paymentSchema = new Schema<PaymentSchemaType>(
     {
         _id: { type: Schema.Types.ObjectId },
-        event_id: { type: Schema.Types.ObjectId, ref: 'event' },
+        event: { type: Schema.Types.ObjectId, ref: 'event' },
         initialPayment: { type: Schema.Types.Number },
         remainingPayment: { type: Schema.Types.Number },
         totalPayment: { type: Schema.Types.Number },

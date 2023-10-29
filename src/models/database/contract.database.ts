@@ -1,25 +1,12 @@
 import mongoose, { Schema } from 'mongoose';
-
-type ContractSchemaType = {
-    _id: Schema.Types.ObjectId;
-    startDate: Date;
-    endDate: Date;
-    initialPayment: number;
-    remainingPayment: number;
-    contractPayment: number;
-    status: string;
-    note: string;
-    attachments: string[];
-};
+import { ContractSchemaType } from '../../types';
 
 const contractSchema = new Schema<ContractSchemaType>(
     {
         _id: { type: Schema.Types.ObjectId, auto: true },
         startDate: { type: Schema.Types.Date },
         endDate: { type: Schema.Types.Date },
-        initialPayment: { type: Schema.Types.Number, default: 0 },
-        remainingPayment: { type: Schema.Types.Number, default: 0 },
-        contractPayment: { type: Schema.Types.Number, default: 0 },
+        payment: { type: Schema.Types.ObjectId, ref: 'payment' },
         status: { type: Schema.Types.String },
         note: { type: Schema.Types.String, default: '' },
         attachments: [{ type: Schema.Types.String, default: null }],

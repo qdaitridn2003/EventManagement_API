@@ -1,12 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
+import { ItemTypeSchemaType } from '../../types';
 
-type KindOfItemSchemaType = {
-    _id: Schema.Types.ObjectId;
-    name: string;
-    description: string;
-};
-
-const itemTypeSchema = new Schema<KindOfItemSchemaType>(
+const typeSchema = new Schema<ItemTypeSchemaType>(
     {
         _id: { type: Schema.Types.ObjectId, auto: true },
         name: { type: Schema.Types.String },
@@ -17,6 +12,6 @@ const itemTypeSchema = new Schema<KindOfItemSchemaType>(
     },
 );
 
-const itemTypeModel = mongoose.model('type', itemTypeSchema);
+const typeModel = mongoose.model('type', typeSchema);
 
-export default itemTypeModel;
+export default typeModel;
