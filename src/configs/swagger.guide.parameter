@@ -1,0 +1,52 @@
+{
+    "name": "<name>",
+    "in": "body",
+    "schema": {
+        "type": "object",
+        "properties": {
+            username": {
+                "example": "example@mail.com",
+                "type": "string"
+            },
+            "password": {
+                "example": "123456",
+                "type": "string"
+            }
+        }
+    }
+}
+
+{
+    "name": "Authorization",
+    "in": "header",
+    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+    "type": "string",
+    "required": true
+    },
+
+{
+    "name": "<name>",
+    "in": "query",
+    "schema": {
+        "type": "string"
+    },
+    "example": "example@mail.com"
+},
+
+{
+    "name": "<name>",
+    "in": "path",
+    "required": true,
+    "description": "",
+    "schema": {
+        "type": "string"
+    }
+},
+
+{
+    "in": "formData",
+    "name": "<name>",
+    "type": "string", 
+    "example": "example@mail.com",
+    "description": "<desc>"
+},

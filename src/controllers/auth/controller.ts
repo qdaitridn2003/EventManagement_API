@@ -5,11 +5,13 @@ import {
     TokenHandler,
     OtpHandler,
     createHttpSuccess,
+    verifyOTPHelper,
 } from '../../utils';
 import { AuthQuery, RoleQuery } from '../../models';
 import createHttpError from 'http-errors';
 import { NodeMailerParty } from '../../third-party';
 import { RoleSchemaType } from '../../types';
+import { OtpType } from '../../constants';
 
 export const signUpAccount = async (req: Request, res: Response, next: NextFunction) => {
     const { username, password, confirmPassword, roleId } = req.body;
@@ -42,7 +44,7 @@ export const signUpAccount = async (req: Request, res: Response, next: NextFunct
         });
 
         const otpSecret = await TokenHandler.signToken(
-            { auth_id: result._id, role: result.role },
+            { auth_id: result._id, type: OtpType.ConfirmEmail },
             'otp_secret',
         );
         const otp = OtpHandler.generateOtp(otpSecret);
@@ -54,22 +56,25 @@ export const signUpAccount = async (req: Request, res: Response, next: NextFunct
     }
 };
 
-export const verifyAccount = async (req: Request, res: Response, next: NextFunction) => {
+export const verifyOtp = async (req: Request, res: Response, next: NextFunction) => {
     const { otp, otpSecret } = req.body;
 
     try {
-        const verifyOtpResult = OtpHandler.verifyOtp(otpSecret, otp);
-        const decodeOtpSecret = TokenHandler.decodeToken(otpSecret);
-        if (verifyOtpResult) {
-            await AuthQuery.updateOne(
-                { _id: decodeOtpSecret.auth_id },
-                { isVerified: true, verifiedAt: new Date() },
-            );
-            return next(createHttpSuccess(200, null, 'Verify account successfully'));
+        const { check, type, auth_id } = verifyOTPHelper(otp, otpSecret);
+
+        if (!check) {
+            return next(createHttpError(401, 'Otp was expired or invalid'));
         }
-        return next(createHttpError(401, 'Otp was expired or invalid'));
+
+        if (type === OtpType.ConfirmEmail) {
+            await AuthQuery.updateOne({ _id: auth_id }, { isVerified: true, verifiedAt: new Date() });
+            return next(createHttpSuccess(200, null, 'Verify account successfully'));
+        } else if (type === OtpType.ResetPassword) {
+            const foundAccount = await AuthQuery.findOne({ _id: auth_id });
+            return next(createHttpSuccess(200, { username: foundAccount?.username }, 'Verify otp successfully'));
+        }
     } catch (error) {
-        next(error);
+        return next(error);
     }
 };
 
@@ -85,7 +90,7 @@ export const resendOtpForConfirmEmail = async (req: Request, res: Response, next
         const otpSecret = await TokenHandler.signToken(
             {
                 auth_id: foundAccount._id,
-                role: foundAccount.role,
+                type: OtpType.ConfirmEmail,
             },
             'otp_secret',
         );
@@ -98,11 +103,7 @@ export const resendOtpForConfirmEmail = async (req: Request, res: Response, next
     }
 };
 
-export const resendOtpForConfirmResetPass = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-) => {
+export const resendOtpForConfirmResetPass = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { username } = req.body;
 
@@ -114,7 +115,7 @@ export const resendOtpForConfirmResetPass = async (
         const otpSecret = await TokenHandler.signToken(
             {
                 auth_id: foundAccount._id,
-                role: foundAccount.role,
+                type: OtpType.ResetPassword,
             },
             'otp_secret',
         );
@@ -139,7 +140,7 @@ export const forgotPassword = async (req: Request, res: Response, next: NextFunc
         const otpSecret = await TokenHandler.signToken(
             {
                 auth_id: foundAccount._id,
-                role: foundAccount.role,
+                type: OtpType.ResetPassword,
             },
             'otp_secret',
         );
@@ -147,29 +148,6 @@ export const forgotPassword = async (req: Request, res: Response, next: NextFunc
         NodeMailerParty.mailingResetPassword(username, otp);
 
         return next(createHttpSuccess(200, { otpSecret: otpSecret }));
-    } catch (error) {
-        next(error);
-    }
-};
-
-export const verifyOtpForResetPassword = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-) => {
-    try {
-        const { otp, otpSecret } = req.body;
-        const verifyOtpResult = OtpHandler.verifyOtp(otpSecret, otp);
-
-        if (!verifyOtpResult) {
-            return next(createHttpError(401, 'Otp was expired or invalid'));
-        }
-
-        next(
-            createHttpSuccess(200, {
-                canBeReset: true,
-            }),
-        );
     } catch (error) {
         next(error);
     }
@@ -253,10 +231,7 @@ export const changePassword = async (req: Request, res: Response, next: NextFunc
             return next(validateResult.error);
         }
 
-        const comparePassword = HashPasswordHandler.comparePassword(
-            oldPassword,
-            foundAccount.password,
-        );
+        const comparePassword = HashPasswordHandler.comparePassword(oldPassword, foundAccount.password);
 
         if (!comparePassword) {
             return next(createHttpError(400, 'Old password is not correct'));
