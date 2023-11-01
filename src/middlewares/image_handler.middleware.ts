@@ -5,19 +5,14 @@ const imageHandler = multer({
     storage: multer.memoryStorage(),
     fileFilter: (req, file: Express.Multer.File, callBack) => {
         const tailImageFile = file.mimetype.split('/')[1];
-        if (
-            tailImageFile === 'jpg' ||
-            tailImageFile === 'jpeg' ||
-            tailImageFile === 'png' ||
-            tailImageFile === 'svg'
-        ) {
+        if (tailImageFile === 'jpg' || tailImageFile === 'jpeg' || tailImageFile === 'png' || tailImageFile === 'svg') {
             callBack(null, true);
         } else {
-            callBack(createHttpError('Image must have tailfile (jpg, jpeg, png, or svg)'));
+            callBack(createHttpError('Image must have tail file (jpg, jpeg, png, or svg)'));
         }
     },
     limits: {
-        fieldSize: 10 * 1000 * 1000, //10MB
+        fieldSize: 100 * 1000, //0.1MB 100KB
     },
 });
 
