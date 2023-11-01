@@ -37,7 +37,7 @@ export const deleteRole = async (req: Request, response: Response, next: NextFun
 
 export const getListRole = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const result = await RoleQuery.find()
+        const result = await RoleQuery.find({ name: { $ne: 'Quản Trị Viên' } })
             .select({ createdAt: false, updatedAt: false, __v: false })
             .sort('identify');
         return next(createHttpSuccess(200, result));
