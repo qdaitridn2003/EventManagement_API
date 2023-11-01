@@ -5,8 +5,8 @@ const employeeSchema = new Schema<EmployeeSchemaType>(
     {
         _id: { type: Schema.Types.ObjectId, auto: true },
         auth: { type: Schema.Types.ObjectId, ref: 'auth' },
-        contract: { type: Schema.Types.ObjectId, ref: 'contract' },
-        events: [{ type: Schema.Types.ObjectId, ref: 'event' }],
+        contract: { type: Schema.Types.ObjectId, ref: 'contract', default: null },
+        events: [{ type: Schema.Types.ObjectId, ref: 'event', default: null }],
         email: { type: Schema.Types.String },
         fullName: { type: Schema.Types.String },
         dateOfBirth: { type: Schema.Types.Date },
