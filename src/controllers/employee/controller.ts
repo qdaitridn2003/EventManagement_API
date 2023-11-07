@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import { EmployeeValidator, createHttpSuccess } from '../../utils';
+import { OtherValidator, createHttpSuccess } from '../../utils';
 import { EmployeeQuery } from '../../models';
 import { FirebaseParty } from '../../third-party';
 import { UploadType } from '../../constants';
 
 export const registerEmployeeProfile = async (req: Request, res: Response, next: NextFunction) => {
     const { authId, email, fullName, dateOfBirth, gender, phoneNumber, address } = req.body;
-    const validator = EmployeeValidator.registerEmployeeValidator.safeParse({ email, gender, phoneNumber });
+    const validator = OtherValidator.registerInfoValidator.safeParse({ email, gender, phoneNumber });
 
     if (!validator.success) {
         return next(validator.error);
