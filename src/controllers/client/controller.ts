@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { ClientQuery } from '../../models';
-import { OtherValidator, createHttpSuccess, paginationHelper, searchHelper } from '../../utils';
+import { OtherValidator, createHttpSuccess, paginationHelper } from '../../utils';
 import createHttpError from 'http-errors';
 import { FirebaseParty } from '../../third-party';
 import { UploadType } from '../../constants';
@@ -78,12 +78,7 @@ export const getListClient = async (req: Request, res: Response, next: NextFunct
         const { amount, offset } = paginationHelper(limit as string, page as string);
         let listClient;
         if (search) {
-            listClient = await ClientQuery.find({
-                $or: [
-                    { fullName: { $regex: searchHelper(search as string) } },
-                    { email: { $regex: searchHelper(search as string) } },
-                ],
-            })
+            listClient = await ClientQuery.find({ fullName: { $regex: `.*${search}.*` } })
                 .select({ createdAt: false, updatedAt: false, __v: false })
                 .limit(amount)
                 .skip(offset);
