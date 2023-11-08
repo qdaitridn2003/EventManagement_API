@@ -12,6 +12,8 @@ const typeSchema = new Schema<ItemTypeSchemaType>(
     },
 );
 
+typeSchema.index({ name: 'text' });
+
 const typeModel = mongoose.model('type', typeSchema);
 
 export default typeModel;
