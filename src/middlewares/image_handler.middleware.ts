@@ -8,7 +8,7 @@ const imageHandler = multer({
         if (tailImageFile === 'jpg' || tailImageFile === 'jpeg' || tailImageFile === 'png' || tailImageFile === 'svg') {
             callBack(null, true);
         } else {
-            callBack(createHttpError('Image must have tail file (jpg, jpeg, png, or svg)'));
+            callBack(createHttpError(400, 'Image must have tail file (jpg, jpeg, png, or svg)'));
         }
     },
     limits: {
