@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
-import { ItemTypeSchemaType } from '../../types';
+import { CategorySchemaType } from '../../types';
 
-const typeSchema = new Schema<ItemTypeSchemaType>(
+const categorySchema = new Schema<CategorySchemaType>(
     {
         _id: { type: Schema.Types.ObjectId, auto: true },
         name: { type: Schema.Types.String },
@@ -12,8 +12,8 @@ const typeSchema = new Schema<ItemTypeSchemaType>(
     },
 );
 
-typeSchema.index({ name: 'text' });
+categorySchema.index({ name: 'text' });
 
-const typeModel = mongoose.model('type', typeSchema);
+const categoryModel = mongoose.model('category', categorySchema);
 
-export default typeModel;
+export default categoryModel;

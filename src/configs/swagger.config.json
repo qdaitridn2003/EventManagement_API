@@ -312,6 +312,7 @@
             "name": "_id",
             "in": "path",
             "required": true,
+            "example": "1",
             "description": "",
             "type": "string"
           },
@@ -362,6 +363,7 @@
             "name": "_id",
             "in": "path",
             "required": true,
+            "example": "1",
             "description": "",
             "type": "string"
           }
@@ -378,6 +380,685 @@
         "tags": ["Role"],
         "description": "",
         "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/client/create-info-client": {
+      "post": {
+        "tags": ["Client"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "type": "string",
+            "required": true,
+            "example": "example@mail.com",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "fullName",
+            "type": "string",
+            "required": true,
+            "example": "example",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "gender",
+            "required": true,
+            "type": "string",
+            "example": "male",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "dateOfBirth",
+            "type": "date",
+            "example": "2023-11-11T06:48:25.462+00:00",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "phoneNumber",
+            "type": "date",
+            "example": "0123456789",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "address",
+            "type": "date",
+            "example": "123 St Miami",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/client/update-info-client/{:_id}": {
+      "put": {
+        "tags": ["Client"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "type": "string",
+            "required": true,
+            "example": "1",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "type": "string",
+            "example": "example@mail.com",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "fullName",
+            "type": "string",
+            "example": "example",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "gender",
+            "type": "string",
+            "example": "male",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "dateOfBirth",
+            "type": "date",
+            "example": "2023-11-11T06:48:25.462+00:00",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "phoneNumber",
+            "type": "date",
+            "example": "0123456789",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "address",
+            "type": "date",
+            "example": "123 St Miami",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/client/delete-client/{:_id}": {
+      "delete": {
+        "tags": ["Client"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "required": true,
+            "type": "string",
+            "example": "1",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/client/get-client-detail/{:_id}": {
+      "get": {
+        "tags": ["Client"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "required": true,
+            "type": "string",
+            "example": "1",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/client/get-client-list": {
+      "get": {
+        "tags": ["Client"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "string",
+            "example": "10",
+            "description": ""
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "string",
+            "example": "1",
+            "description": ""
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "type": "string",
+            "example": "a",
+            "description": "Using to search for client's full name or email "
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/client/upload-avatar-client/{:_id}": {
+      "post": {
+        "tags": ["Client"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "type": "string",
+            "required": true,
+            "example": "1",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "avatar",
+            "type": "file",
+            "example": "",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/category/create-category": {
+      "post": {
+        "tags": ["Category"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "type": "string",
+            "required": true,
+            "example": "example",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "type": "string",
+            "example": "example",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/category/update-category/{:_id}": {
+      "put": {
+        "tags": ["Category"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "type": "string",
+            "required": true,
+            "example": "1",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "type": "string",
+            "example": "example",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "type": "string",
+            "example": "example",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/category/delete-category/{:_id}": {
+      "delete": {
+        "tags": ["Category"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "type": "string",
+            "required": true,
+            "example": "1",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/category/get-list-category": {
+      "get": {
+        "tags": ["Category"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "string",
+            "example": "10",
+            "description": ""
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "string",
+            "example": "1",
+            "description": ""
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "type": "string",
+            "example": "a",
+            "description": "Using to search for category's name "
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/item/create-info-item": {
+      "post": {
+        "tags": ["Item"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "type": "string",
+            "required": true,
+            "example": "example",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "type": "string",
+            "example": "example",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "quantityTotal",
+            "type": "number",
+            "example": "0",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "categoryId",
+            "type": "string",
+            "required": true,
+            "example": "1",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/item/update-info-item/{:_id}": {
+      "put": {
+        "tags": ["Item"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "type": "string",
+            "example": "1",
+            "required": true,
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "type": "string",
+            "example": "example",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "type": "string",
+            "example": "example",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "quantityTotal",
+            "type": "number",
+            "example": "0",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "quantityUsed",
+            "type": "number",
+            "example": "0",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "categoryId",
+            "type": "string",
+            "example": "1",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/item/delete-info-item/{:_id}": {
+      "delete": {
+        "tags": ["Item"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "type": "string",
+            "example": "1",
+            "required": true,
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/item/get-detail-item/{:_id}": {
+      "get": {
+        "tags": ["Item"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "type": "string",
+            "example": "1",
+            "required": true,
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/item/get-list-item": {
+      "get": {
+        "tags": ["Item"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "string",
+            "example": "10",
+            "description": ""
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "string",
+            "example": "1",
+            "description": ""
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "type": "string",
+            "example": "a",
+            "description": "Using to search for item's name "
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "type": "string",
+            "example": "[\"Nội thất\"]",
+            "description": "Data type is array string, it using for get item follow with its category"
+          },
+          {
+            "in": "query",
+            "name": "available",
+            "type": "boolean",
+            "example": "true",
+            "description": "Search item by its quantity available "
+          },
+          {
+            "in": "query",
+            "name": "arrange",
+            "type": "string",
+            "example": "high to low | low to high",
+            "description": "Search item by its quantity available "
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/item/upload-image-item/{:_id}": {
+      "post": {
+        "tags": ["Item"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "type": "string",
+            "required": true,
+            "example": "1",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "image",
+            "type": "file",
+            "example": "",
+            "description": ""
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"

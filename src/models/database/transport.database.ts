@@ -12,7 +12,7 @@ const transportSchema = new Schema<TransportSchemaType>(
         brand: { type: Schema.Types.String },
         color: { type: Schema.Types.String },
         availability: { type: Schema.Types.String },
-        image: { type: Schema.Types.String },
+        image: { type: Schema.Types.String, default: null },
     },
     {
         timestamps: true,

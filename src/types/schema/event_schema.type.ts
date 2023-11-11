@@ -11,6 +11,7 @@ export type EventSchemaType = {
     services: Schema.Types.ObjectId[] | ServiceSchemaType[];
     timelines: Schema.Types.ObjectId[] | TimelineSchemaType[];
     equipments: Schema.Types.ObjectId[] | ItemSchemaType[];
+    name: string;
     dateTime: Date;
     status: string;
     note: string;

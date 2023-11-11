@@ -30,7 +30,7 @@ clientRoutes
     .get(Authorization, CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]), controller.getListClient);
 
 clientRoutes
-    .route('/upload-client-avatar/:_id')
+    .route('/upload-avatar-client/:_id')
     .post(
         ImageHandler.single('avatar'),
         Authorization,

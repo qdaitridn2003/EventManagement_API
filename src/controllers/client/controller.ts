@@ -35,9 +35,12 @@ export const updateInfoClient = async (req: Request, res: Response, next: NextFu
     try {
         const foundClient = await ClientQuery.findOne({ _id });
         if (!foundClient) {
-            return next(createHttpError(400, 'Not found client'));
+            return next(createHttpError(404, 'Not found client'));
         }
-        await ClientQuery.updateOne({ _id }, { email, fullName, phoneNumber, address, dateOfBirth, gender });
+        await ClientQuery.updateOne(
+            { _id: foundClient._id },
+            { email, fullName, phoneNumber, address, dateOfBirth, gender },
+        );
         return next(createHttpSuccess(200));
     } catch (error) {
         return next(error);
@@ -50,9 +53,9 @@ export const deleteClient = async (req: Request, res: Response, next: NextFuncti
     try {
         const foundClient = await ClientQuery.findOne({ _id });
         if (!foundClient) {
-            return next(createHttpError(400, 'Not found client'));
+            return next(createHttpError(404, 'Not found client'));
         }
-        await ClientQuery.deleteOne({ _id });
+        await ClientQuery.deleteOne({ _id: foundClient._id });
         return next(createHttpSuccess(200));
     } catch (error) {
         return next(error);
@@ -76,23 +79,20 @@ export const getListClient = async (req: Request, res: Response, next: NextFunct
     const { limit, page, search } = req.query;
     try {
         const { amount, offset } = paginationHelper(limit as string, page as string);
-        let listClient;
+        const query = ClientQuery.find().select({ createdAt: false, updatedAt: false, __v: false });
+
         if (search) {
-            listClient = await ClientQuery.find({
-                $or: [
-                    { fullName: { $regex: searchHelper(search as string) } },
-                    { email: { $regex: searchHelper(search as string) } },
-                ],
-            })
-                .select({ createdAt: false, updatedAt: false, __v: false })
-                .limit(amount)
-                .skip(offset);
-        } else {
-            listClient = await ClientQuery.find()
-                .select({ createdAt: false, updatedAt: false, __v: false })
-                .limit(amount)
-                .skip(offset);
+            query.and([
+                {
+                    $or: [
+                        { fullName: { $regex: searchHelper(search as string) } },
+                        { email: { $regex: searchHelper(search as string) } },
+                    ],
+                },
+            ]);
         }
+
+        const listClient = await query.limit(amount).skip(offset).exec();
         const totalClient = await ClientQuery.countDocuments();
         return next(createHttpSuccess(200, { listClient, totalClient }));
     } catch (error) {
@@ -104,8 +104,12 @@ export const uploadAvatarClient = async (req: Request, res: Response, next: Next
     const avatar = req.file;
     const { _id } = req.params;
     try {
+        const foundClient = await ClientQuery.findOne({ _id });
+        if (!foundClient) {
+            return next(createHttpError(404, 'Not found client'));
+        }
         const avatarUrl = await FirebaseParty.uploadImage(avatar as Express.Multer.File, UploadType.Avatar);
-        await ClientQuery.updateOne({ _id }, { avatar: avatarUrl });
+        await ClientQuery.updateOne({ _id: foundClient._id }, { avatar: avatarUrl });
         return next(createHttpSuccess(200, {}));
     } catch (error) {
         next(error);

@@ -11,7 +11,7 @@ const clientSchema = new Schema<ClientSchemaType>(
         gender: { type: Schema.Types.String },
         phoneNumber: { type: Schema.Types.String },
         address: { type: Schema.Types.String },
-        avatar: { type: Schema.Types.String },
+        avatar: { type: Schema.Types.String, default: null },
     },
     {
         timestamps: true,

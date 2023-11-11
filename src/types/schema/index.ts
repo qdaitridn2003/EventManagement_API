@@ -9,4 +9,4 @@ export * from './payment_schema.type';
 export * from './service_schema.type';
 export * from './timeline_schema.type';
 export * from './transport_schema.type';
-export * from './itemType_schema.type';
+export * from './category_schema.type';
