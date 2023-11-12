@@ -7,7 +7,7 @@ const contractSchema = new Schema<ContractSchemaType>(
         name: { type: Schema.Types.String },
         startDate: { type: Schema.Types.Date },
         endDate: { type: Schema.Types.Date },
-        payment: { type: Schema.Types.ObjectId, ref: 'payment' },
+        payment: { type: Schema.Types.ObjectId, ref: 'payment', default: null },
         status: { type: Schema.Types.String },
         note: { type: Schema.Types.String, default: '' },
         attachments: [{ type: Schema.Types.String, default: null }],

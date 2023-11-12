@@ -4,7 +4,7 @@ import { ItemSchemaType } from '../../types';
 const itemSchema = new Schema<ItemSchemaType>(
     {
         _id: { type: Schema.Types.ObjectId, auto: true },
-        category: { type: Schema.Types.ObjectId, ref: 'category' },
+        category: { type: Schema.Types.ObjectId, ref: 'category', default: null },
         name: { type: Schema.Types.String },
         description: { type: Schema.Types.String },
         quantityTotal: { type: Schema.Types.Number, default: 0 },
