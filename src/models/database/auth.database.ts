@@ -7,7 +7,7 @@ const authSchema = new Schema<AuthSchemaType>(
         _id: { type: Schema.Types.ObjectId, auto: true },
         username: { type: Schema.Types.String },
         password: { type: Schema.Types.String },
-        role: { type: Schema.Types.ObjectId, ref: 'role', default: isNull },
+        role: { type: Schema.Types.ObjectId, ref: 'role', default: null },
         isVerified: { type: Schema.Types.Boolean, default: false },
         verifiedAt: { type: Schema.Types.Date, default: null },
     },
