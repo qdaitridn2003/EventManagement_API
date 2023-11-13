@@ -17,6 +17,7 @@ export const createService = async (req: Request, res: Response, next: NextFunct
         return next(error);
     }
 };
+
 export const updateService = async (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.params;
     const { name, description } = req.body;
@@ -32,6 +33,7 @@ export const updateService = async (req: Request, res: Response, next: NextFunct
         return next(error);
     }
 };
+
 export const deleteService = async (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.params;
     try {
@@ -46,6 +48,7 @@ export const deleteService = async (req: Request, res: Response, next: NextFunct
         return next(error);
     }
 };
+
 export const getListService = async (req: Request, res: Response, next: NextFunction) => {
     const { search, limit, page } = req.query;
     try {
@@ -56,7 +59,7 @@ export const getListService = async (req: Request, res: Response, next: NextFunc
             query.and([{ name: { $regex: searchHelper(search as string) } }]);
         }
         const listService = await query.limit(amount).skip(offset).exec();
-        const totalService = await ServiceQuery.countDocuments();
+        const totalService = await query.clone().countDocuments();
         return next(createHttpSuccess(200, { listService, totalService }));
     } catch (error) {
         return next(error);

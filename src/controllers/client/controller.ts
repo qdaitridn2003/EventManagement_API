@@ -93,7 +93,7 @@ export const getListClient = async (req: Request, res: Response, next: NextFunct
         }
 
         const listClient = await query.limit(amount).skip(offset).exec();
-        const totalClient = await ClientQuery.countDocuments();
+        const totalClient = await query.clone().countDocuments();
         return next(createHttpSuccess(200, { listClient, totalClient }));
     } catch (error) {
         return next(error);

@@ -112,7 +112,7 @@ export const getListItem = async (req: Request, res: Response, next: NextFunctio
         }
 
         const listItem = await query.limit(amount).skip(offset).exec();
-        const totalItem = await ItemQuery.countDocuments({});
+        const totalItem = await query.clone().countDocuments();
 
         return next(createHttpSuccess(200, { listItem, totalItem }));
     } catch (error) {
@@ -122,13 +122,13 @@ export const getListItem = async (req: Request, res: Response, next: NextFunctio
 
 export const uploadImageItem = async (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.params;
-    const avatar = req.file;
+    const image = req.file;
     try {
         const foundItem = await ItemQuery.findOne({ _id });
         if (!foundItem) {
             return next(createHttpError(404, 'Not found item'));
         }
-        const imageUrl = await FirebaseParty.uploadImage(avatar as Express.Multer.File, UploadType.Item);
+        const imageUrl = await FirebaseParty.uploadImage(image as Express.Multer.File, UploadType.Item);
         await ItemQuery.updateOne({ _id: foundItem._id }, { image: imageUrl });
         return next(createHttpSuccess(200, {}));
     } catch (error) {

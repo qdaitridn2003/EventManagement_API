@@ -62,7 +62,7 @@ export const getListCategory = async (req: Request, res: Response, next: NextFun
         }
 
         const listCategory = await query.limit(amount).skip(offset).exec();
-        const totalCategory = await CategoryQuery.countDocuments();
+        const totalCategory = await query.clone().countDocuments();
         return next(createHttpSuccess(200, { listCategory, totalCategory }));
     } catch (error) {
         return next(error);
