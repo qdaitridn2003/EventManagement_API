@@ -6,6 +6,7 @@ import { employeeRoutes } from './employee';
 import { clientRoutes } from './client';
 import { categoryRoutes } from './category';
 import { itemRoutes } from './item';
+import { serviceRoutes } from './service';
 
 export const apiControllers = Express.Router();
 
@@ -16,3 +17,4 @@ apiControllers.use('/employee', employeeRoutes);
 apiControllers.use('/client', clientRoutes);
 apiControllers.use('/category', categoryRoutes);
 apiControllers.use('/item', itemRoutes);
+apiControllers.use('/service', serviceRoutes);
