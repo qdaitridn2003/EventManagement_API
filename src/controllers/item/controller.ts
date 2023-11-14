@@ -111,8 +111,8 @@ export const getListItem = async (req: Request, res: Response, next: NextFunctio
             query.sort({ quantityAvailable: 1 });
         }
 
-        const listItem = await query.limit(amount).skip(offset).exec();
         const totalItem = await query.clone().countDocuments();
+        const listItem = await query.limit(amount).skip(offset).exec();
 
         return next(createHttpSuccess(200, { listItem, totalItem }));
     } catch (error) {

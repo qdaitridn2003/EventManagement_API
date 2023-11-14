@@ -58,8 +58,8 @@ export const getListService = async (req: Request, res: Response, next: NextFunc
         if (search) {
             query.and([{ name: { $regex: searchHelper(search as string) } }]);
         }
-        const listService = await query.limit(amount).skip(offset).exec();
         const totalService = await query.clone().countDocuments();
+        const listService = await query.limit(amount).skip(offset).exec();
         return next(createHttpSuccess(200, { listService, totalService }));
     } catch (error) {
         return next(error);

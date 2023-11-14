@@ -61,8 +61,8 @@ export const getListCategory = async (req: Request, res: Response, next: NextFun
             query.and([{ name: { $regex: searchHelper(search as string) } }]);
         }
 
-        const listCategory = await query.limit(amount).skip(offset).exec();
         const totalCategory = await query.clone().countDocuments();
+        const listCategory = await query.limit(amount).skip(offset).exec();
         return next(createHttpSuccess(200, { listCategory, totalCategory }));
     } catch (error) {
         return next(error);
