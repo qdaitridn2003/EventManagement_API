@@ -17,6 +17,7 @@ const authorization = async (req: Request, res: Response, next: NextFunction) =>
         const verifiedToken = await TokenHandler.verifyToken(token, 'access');
         res.locals.auth_id = verifiedToken.auth_id;
         res.locals.identify = verifiedToken.identify;
+        res.locals.employee_id = verifiedToken.employee_id;
         next();
     } catch (error) {
         next(error);

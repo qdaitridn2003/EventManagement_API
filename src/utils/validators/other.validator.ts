@@ -1,7 +1,7 @@
 import { z as Zod } from 'zod';
 
 export const registerInfoValidator = Zod.object({
-    email: Zod.string().email({ message: 'Email must an email address' }),
+    email: Zod.string().email({ message: 'Email must an email address' }).optional(),
     gender: Zod.enum(['male', 'female'], {
         errorMap: (issue, context) => {
             return {

@@ -7,7 +7,7 @@ import {
     createHttpSuccess,
     verifyOTPHelper,
 } from '../../utils';
-import { AuthQuery, RoleQuery } from '../../models';
+import { AuthQuery, EmployeeQuery, RoleQuery } from '../../models';
 import createHttpError from 'http-errors';
 import { NodeMailerParty } from '../../third-party';
 import { RoleSchemaType } from '../../types';
@@ -188,9 +188,16 @@ export const signIn = async (req: Request, res: Response, next: NextFunction) =>
         if (!result.isVerified && !result.verifiedAt)
             return next(createHttpError(401, 'You need to confirm signed up email address'));
 
+        const foundEmployee = await EmployeeQuery.findOne({ auth: result._id });
+
+        if (!foundEmployee) {
+            return next(createHttpError(400, 'Not found employee'));
+        }
+
         const accessToken = await TokenHandler.signToken(
             {
                 auth_id: result._id,
+                employee_id: foundEmployee._id,
                 identify: (result.role as RoleSchemaType).identify,
             },
             'access',
@@ -199,6 +206,7 @@ export const signIn = async (req: Request, res: Response, next: NextFunction) =>
         const refreshToken = await TokenHandler.signToken(
             {
                 auth_id: result._id,
+                employee_id: foundEmployee._id,
                 identify: (result.role as RoleSchemaType).identify,
             },
             'refresh',

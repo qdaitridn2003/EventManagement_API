@@ -5,11 +5,14 @@ const responseHandler = (responsePayload: ResponsePayloadType, req: Request, res
     if (responsePayload instanceof Error) {
         return next(responsePayload);
     } else {
-        return res.status(responsePayload.statusCode ?? 200).json({
-            status: 'Success',
-            message: responsePayload.message ?? 'Successfully',
-            data: responsePayload.data,
-        });
+        return res
+            .status(responsePayload.statusCode ?? 200)
+            .json({
+                status: 'Success',
+                message: responsePayload.message ?? 'Successfully',
+                data: responsePayload.data,
+            })
+            .flush();
     }
 };
 
