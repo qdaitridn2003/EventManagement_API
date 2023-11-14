@@ -20,7 +20,7 @@ ApiApp.use(Express.json());
 ApiApp.use(Express.urlencoded({ extended: false }));
 ApiApp.use(Cors({ origin: '*' }));
 ApiApp.use(Helmet());
-ApiApp.use(Compression({ level: 1, threshold: 10 * 1000 /* 10MB */ }));
+ApiApp.use(Compression({ level: 1, threshold: 128 /* 0.125KB */ }));
 
 /*      Main Endpoint      */
 
