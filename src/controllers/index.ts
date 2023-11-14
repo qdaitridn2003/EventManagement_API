@@ -7,7 +7,7 @@ import { clientRoutes } from './client';
 import { categoryRoutes } from './category';
 import { itemRoutes } from './item';
 import { serviceRoutes } from './service';
-
+import { timelineRoutes } from './timeline';
 export const apiControllers = Express.Router();
 
 apiControllers.use('/auth', authRoutes);
@@ -18,3 +18,4 @@ apiControllers.use('/client', clientRoutes);
 apiControllers.use('/category', categoryRoutes);
 apiControllers.use('/item', itemRoutes);
 apiControllers.use('/service', serviceRoutes);
+apiControllers.use('/timeline', timelineRoutes);
