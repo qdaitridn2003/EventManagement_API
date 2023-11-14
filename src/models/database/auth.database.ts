@@ -1,6 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
 import { AuthSchemaType } from '../../types';
-import { isNull } from 'util';
 
 const authSchema = new Schema<AuthSchemaType>(
     {
