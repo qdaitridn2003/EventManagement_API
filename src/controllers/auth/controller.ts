@@ -67,8 +67,11 @@ export const verifyOtp = async (req: Request, res: Response, next: NextFunction)
         }
 
         if (type === OtpType.ConfirmEmail) {
-            await AuthQuery.updateOne({ _id: auth_id }, { isVerified: true, verifiedAt: new Date() });
-            return next(createHttpSuccess(200, null, 'Verify account successfully'));
+            const foundAccount = await AuthQuery.findOneAndUpdate(
+                { _id: auth_id },
+                { isVerified: true, verifiedAt: new Date() },
+            );
+            return next(createHttpSuccess(200, { auth_id: foundAccount?._id }, 'Verify account successfully'));
         } else if (type === OtpType.ResetPassword) {
             const foundAccount = await AuthQuery.findOne({ _id: auth_id });
             return next(createHttpSuccess(200, { username: foundAccount?.username }, 'Verify otp successfully'));
