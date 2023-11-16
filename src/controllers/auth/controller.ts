@@ -6,6 +6,7 @@ import {
     OtpHandler,
     createHttpSuccess,
     verifyOTPHelper,
+    TimeHandler,
 } from '../../utils';
 import { AuthQuery, EmployeeQuery, RoleQuery } from '../../models';
 import createHttpError from 'http-errors';
@@ -253,6 +254,37 @@ export const changePassword = async (req: Request, res: Response, next: NextFunc
         await AuthQuery.updateOne({ _id: auth_id }, { password: hashPassword });
 
         next(createHttpSuccess(200));
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const getNewAccessToken = async (req: Request, res: Response, next: NextFunction) => {
+    const { refreshToken, accessToken, authId } = req.body;
+
+    try {
+        const decodeAccessToken = TokenHandler.decodeToken(accessToken);
+        const isNotExpire = TimeHandler.checkExpireDate(decodeAccessToken.exp as number);
+        if (isNotExpire) {
+            return next(createHttpSuccess(200, { accessToken, refreshToken }));
+        }
+
+        if (refreshToken) {
+            const decodeRefreshToken = TokenHandler.decodeToken(refreshToken);
+            if (authId !== decodeRefreshToken.auth_id) {
+                return next(createHttpError(401, 'This authorization is not yours'));
+            }
+            const newAccessToken = await TokenHandler.signToken(
+                {
+                    auth_id: decodeRefreshToken.auth_id,
+                    employee_id: decodeRefreshToken.employee_id,
+                    identify: decodeRefreshToken.identify,
+                },
+                'access',
+            );
+            return next(createHttpSuccess(200, { accessToken: newAccessToken, refreshToken }));
+        }
+        next(createHttpError(401, {}, 'Your sign in period was expired'));
     } catch (error) {
         next(error);
     }

@@ -253,6 +253,43 @@
         }
       }
     },
+    "/api/auth/get-access-token": {
+      "post": {
+        "tags": ["Auth"],
+        "description": "",
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "accessToken",
+            "type": "string",
+            "example": "",
+            "description": "",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "refreshToken",
+            "type": "string",
+            "example": "",
+            "description": "",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "authId",
+            "type": "string",
+            "example": "1",
+            "description": "",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/role/create-role": {
       "post": {
         "tags": ["Role"],
