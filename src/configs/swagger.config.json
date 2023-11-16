@@ -1227,14 +1227,6 @@
           },
           {
             "in": "formData",
-            "name": "name",
-            "type": "string",
-            "example": "axamp",
-            "description": "",
-            "required": true
-          },
-          {
-            "in": "formData",
             "name": "description",
             "type": "string",
             "example": "",
@@ -1276,13 +1268,6 @@
             "type": "string",
             "required": true
 
-          },
-          {
-            "in": "formData",
-            "name": "name",
-            "type": "string",
-            "example": "axamp",
-            "description": ""
           },
           {
             "in": "formData",
@@ -1357,43 +1342,8 @@
             "type": "string",
             "required": true
 
-          },
-            {
-            "in": "query",
-            "name": "limit",
-            "type": "string",
-            "example": "10",
-            "description": ""
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "type": "string",
-            "example": "1",
-            "description": ""
-          },
-          {
-            "in": "query",
-            "name": "search",
-            "type": "string",
-            "example": "examp",
-            "description": ""
-          },
-          {
-            "in": "query",
-            "name": "location",
-            "type": "string",
-            "example": "axamp",
-            "description": ""
-          },
-               {
-            "in": "query",
-            "name": "dataTime",
-            "type": "string",
-            "example": "2023-11-14",
-            "description": ""
           }
-          
+        
         ],
         "responses": {
           "200": {
