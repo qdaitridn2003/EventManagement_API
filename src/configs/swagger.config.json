@@ -1102,7 +1102,7 @@
         }
       }
     },
-      "/api/service/update-service/{:_id}": {
+    "/api/service/update-service/{:_id}": {
       "put": {
         "tags": ["Service"],
         "description": "",
@@ -1144,7 +1144,7 @@
         }
       }
     },
-      "/api/service/delete-service/{:_id}": {
+    "/api/service/delete-service/{:_id}": {
       "delete": {
         "tags": ["Service"],
         "description": "",
@@ -1213,7 +1213,7 @@
         }
       }
     },
-      "/api/timeline/create-timeline": {
+    "/api/timeline/create-timeline": {
       "post": {
         "tags": ["Timeline"],
         "description": "",
@@ -1224,6 +1224,14 @@
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
             "type": "string",
             "required": true
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "type": "string",
+            "required": true,
+            "example": "",
+            "description": ""
           },
           {
             "in": "formData",
@@ -1256,7 +1264,7 @@
         }
       }
     },
-      "/api/timeline/update-timeline/{:_id}": {
+    "/api/timeline/update-timeline/{:_id}": {
       "put": {
         "tags": ["Timeline"],
         "description": "",
@@ -1268,6 +1276,14 @@
             "type": "string",
             "required": true
 
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "type": "string",
+            "required": true,
+            "example": "",
+            "description": ""
           },
           {
             "in": "formData",
@@ -1299,7 +1315,7 @@
         }
       }
     },
-      "/api/timeline/delete-timeline/{:_id}": {
+    "/api/timeline/delete-timeline/{:_id}": {
       "delete": {
         "tags": ["Timeline"],
         "description": "",
@@ -1319,9 +1335,7 @@
             "example": "1",
             "description": "",
             "required": true
-
           }
-        
         ],
         "responses": {
           "200": {
@@ -1330,7 +1344,7 @@
         }
       }
     },
-      "/api/timeline/get-list-timeline": {
+    "/api/timeline/get-list-timeline": {
       "get": {
         "tags": ["Timeline"],
         "description": "",
@@ -1341,9 +1355,42 @@
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
             "type": "string",
             "required": true
-
+          },
+          {
+            "in": "formData",
+            "name": "location",
+            "type": "string",
+            "example": "New York",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "search",
+            "type": "string",
+            "example": "",
+            "description": "Using to search for timeline's name"
+          },
+          {
+            "in": "formData",
+            "name": "dateTime",
+            "type": "string",
+            "example": "2023-11-11",
+            "description": ""
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "string",
+            "example": "10",
+            "description": ""
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "string",
+            "example": "1",
+            "description": ""
           }
-        
         ],
         "responses": {
           "200": {
@@ -1353,5 +1400,4 @@
       }
     }
   }
-  
 }
