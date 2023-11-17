@@ -1312,7 +1312,6 @@
             "example": "2023-11-14T00:00:00.000+00:00",
             "description": "",
             "required": true
-
           },
           {
             "in": "formData",
@@ -1340,7 +1339,6 @@
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
             "type": "string",
             "required": true
-
           },
           {
             "in": "formData",
@@ -1411,7 +1409,7 @@
         }
       }
     },
-           "/api/timeline/get-timeline-detail/{:_id}": {
+    "/api/timeline/get-timeline-detail/{:_id}": {
       "get": {
         "tags": ["Timeline"],
         "description": "",
@@ -1422,7 +1420,6 @@
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
             "type": "string",
             "required": true
-
           },
           {
             "in": "path",
@@ -1434,35 +1431,6 @@
 
           }
         
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-           "/api/timeline/get-timeline-detail/{:_id}": {
-      "get": {
-        "tags": ["Timeline"],
-        "description": "",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-            "type": "string",
-            "required": true
-
-          },
-          {
-            "in": "path",
-            "name": "_id",
-            "type": "string",
-            "example": "1",
-            "description": "",
-            "required": true
-          }
         ],
         "responses": {
           "200": {
@@ -1517,10 +1485,8 @@
             "type": "string",
             "example": "1",
             "description": ""
-          }
-
           },
-            {
+          {
             "in": "query",
             "name": "limit",
             "type": "string",
@@ -1555,7 +1521,6 @@
           }
 
         ],
-        
         "responses": {
           "200": {
             "description": "OK"
