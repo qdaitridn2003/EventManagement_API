@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { TimelineQuery } from '../../models';
-import { createHttpSuccess, paginationHelper, searchHelper } from '../../utils';
+import { createHttpSuccess, paginationHelper, searchHelper, timestampHelper } from '../../utils';
 import createHttpError from 'http-errors';
 
 export const createTimeline = async (req: Request, res: Response, next: NextFunction) => {
@@ -65,9 +65,9 @@ export const getListTimeline = async (req: Request, res: Response, next: NextFun
             query.and([{ location: { $regex: searchHelper(location as string) } }]);
         }
         if (dateTime) {
-            const date = new Date(dateTime as string);
-            console.log('date', date);
-            query.and([{ createdAt: { $eq: date } }]);
+            const parsedDate = new Date(dateTime as string);
+            const { dateStart, dateEnd } = timestampHelper(parsedDate);
+            query.and([{ createdAt: { $gte: dateStart, $lt: dateEnd } }]);
         }
         const totalTimeline = await query.clone().countDocuments();
         const listTimeline = await query.limit(amount).skip(offset).exec();

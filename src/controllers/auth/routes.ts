@@ -19,3 +19,4 @@ authRoutes
         CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant, Identify.Employee]),
         Controller.changePassword,
     );
+authRoutes.route('/get-access-token').post(Controller.getNewAccessToken);
