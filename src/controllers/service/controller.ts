@@ -65,3 +65,15 @@ export const getListService = async (req: Request, res: Response, next: NextFunc
         return next(error);
     }
 };
+export const getServiceDetail = async (req: Request, res: Response, next: NextFunction) => {
+    const { _id } = req.params;
+    try {
+        const service = await ServiceQuery.findById(_id).select({ createdAt: false, updatedAt: false, __v: false });
+        if (!service) {
+            return next(createHttpError(400, 'Service not found'));
+        }
+        return next(createHttpSuccess(200, { service }));
+    } catch (error) {
+        return next(error);
+    }
+};

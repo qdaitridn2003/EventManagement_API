@@ -18,3 +18,6 @@ serviceRoutes
 serviceRoutes
     .route('/get-list-service')
     .get(Authorization, CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]), Controller.getListService);
+serviceRoutes
+    .route('/get-service-detail/:_id')
+    .get(Authorization, CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]), Controller.getServiceDetail);

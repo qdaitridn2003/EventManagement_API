@@ -76,3 +76,15 @@ export const getListTimeline = async (req: Request, res: Response, next: NextFun
         return next(error);
     }
 };
+export const getTimelineDetail = async (req: Request, res: Response, next: NextFunction) => {
+    const { _id } = req.params;
+    try {
+        const timeline = await TimelineQuery.findById(_id).select({ createdAt: false, updatedAt: false, __v: false });
+        if (!timeline) {
+            return next(createHttpError(400, 'Timeline not found'));
+        }
+        return next(createHttpSuccess(200, { timeline }));
+    } catch (error) {
+        return next(error);
+    }
+};

@@ -21,3 +21,11 @@ timelineRoutes
         Controller.deleteTimeline,
     );
 timelineRoutes.route('/get-list-timeline').get(Authorization, Controller.getListTimeline);
+
+timelineRoutes
+    .route('/get-timeline-detail/:_id')
+    .get(
+        Authorization,
+        CheckRole([Identify.Admin, Identify.Assistant, Identify.Manager]),
+        Controller.getTimelineDetail,
+    );
