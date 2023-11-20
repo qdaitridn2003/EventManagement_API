@@ -4,7 +4,6 @@ import { AuthQuery, EmployeeQuery, RoleQuery } from '../../models';
 import { FirebaseParty } from '../../third-party';
 import { UploadType } from '../../constants';
 import createHttpError from 'http-errors';
-import { RoleSchemaType } from '../../types';
 
 export const registerEmployeeProfile = async (req: Request, res: Response, next: NextFunction) => {
     const { authId, fullName, dateOfBirth, gender, phoneNumber, address } = req.body;
@@ -70,6 +69,14 @@ export const getEmployeeProfile = async (req: Request, res: Response, next: Next
                 populate: {
                     path: 'role',
                     select: { _id: true, name: true },
+                },
+            })
+            .populate({
+                path: 'contract',
+                select: { createdAt: false, updatedAt: false, __v: false },
+                populate: {
+                    path: 'payment',
+                    select: { createdAt: false, updatedAt: false, __v: false },
                 },
             })
             .select({ createdAt: false, updatedAt: false, __v: false });

@@ -79,7 +79,16 @@ export const getListClient = async (req: Request, res: Response, next: NextFunct
     const { limit, page, search } = req.query;
     try {
         const { amount, offset } = paginationHelper(limit as string, page as string);
-        const query = ClientQuery.find().select({ createdAt: false, updatedAt: false, __v: false });
+        const query = ClientQuery.find()
+            .populate({
+                path: 'contracts',
+                select: { createdAt: false, updatedAt: false, __v: false },
+                populate: {
+                    path: 'payment',
+                    select: { createdAt: false, updatedAt: false, __v: false },
+                },
+            })
+            .select({ createdAt: false, updatedAt: false, __v: false });
 
         if (search) {
             query.and([
