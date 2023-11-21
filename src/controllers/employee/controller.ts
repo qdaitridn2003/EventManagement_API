@@ -4,7 +4,6 @@ import { AuthQuery, EmployeeQuery, RoleQuery } from '../../models';
 import { FirebaseParty } from '../../third-party';
 import { UploadType } from '../../constants';
 import createHttpError from 'http-errors';
-import { RoleSchemaType } from '../../types';
 
 export const registerEmployeeProfile = async (req: Request, res: Response, next: NextFunction) => {
     const { authId, fullName, dateOfBirth, gender, phoneNumber, address } = req.body;
@@ -72,6 +71,14 @@ export const getEmployeeProfile = async (req: Request, res: Response, next: Next
                     select: { _id: true, name: true },
                 },
             })
+            .populate({
+                path: 'contract',
+                select: { createdAt: false, updatedAt: false, __v: false },
+                populate: {
+                    path: 'payment',
+                    select: { createdAt: false, updatedAt: false, __v: false },
+                },
+            })
             .select({ createdAt: false, updatedAt: false, __v: false });
         if (!foundEmployee) {
             return next(createHttpError(404, 'Not found employee'));
@@ -94,6 +101,14 @@ export const getEmployeeList = async (req: Request, res: Response, next: NextFun
                 populate: {
                     path: 'role',
                     select: { _id: true, name: true },
+                },
+            })
+            .populate({
+                path: 'contract',
+                select: { createdAt: false, updatedAt: false, __v: false },
+                populate: {
+                    path: 'payment',
+                    select: { createdAt: false, updatedAt: false, __v: false },
                 },
             })
             .select({ createdAt: false, updatedAt: false, __v: false });
@@ -120,9 +135,9 @@ export const getEmployeeList = async (req: Request, res: Response, next: NextFun
 
 export const uploadEmployeeAvatar = async (req: Request, res: Response, next: NextFunction) => {
     const avatar = req.file;
-    const { _id } = req.params;
+    const { employee_id } = res.locals;
     try {
-        const foundEmployee = await EmployeeQuery.findOne({ _id });
+        const foundEmployee = await EmployeeQuery.findOne({ _id: employee_id });
         if (!foundEmployee) {
             return next(createHttpError(404, 'Not found employee'));
         }

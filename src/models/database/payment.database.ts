@@ -3,8 +3,7 @@ import { PaymentSchemaType } from '../../types';
 
 const paymentSchema = new Schema<PaymentSchemaType>(
     {
-        _id: { type: Schema.Types.ObjectId },
-        event: { type: Schema.Types.ObjectId, ref: 'event', default: null },
+        _id: { type: Schema.Types.ObjectId, auto: true },
         initialPayment: { type: Schema.Types.Number },
         remainingPayment: { type: Schema.Types.Number },
         totalPayment: { type: Schema.Types.Number },
