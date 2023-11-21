@@ -148,14 +148,8 @@ export const getListContract = async (req: Request, res: Response, next: NextFun
         }
 
         if (status) {
-            if (
-                status !== ContractStatus.Active &&
-                status !== ContractStatus.Cancelled &&
-                status !== ContractStatus.Completed
-            ) {
-                return next(createHttpError(400, 'Invalid contract status'));
-            }
-            query.and([{ status: status }]);
+            const parsedStatus = JSON.parse(status as string);
+            query.and([{ status: { $in: parsedStatus } }]);
         }
 
         if (startDate && endDate) {

@@ -1809,7 +1809,7 @@
             "in": "query",
             "name": "status",
             "type": "string",
-            "example": "active | cancelled | completed",
+            "example": "[\"active\",\"cancelled\",\"completed\"]",
             "description": ""
           },
           {
