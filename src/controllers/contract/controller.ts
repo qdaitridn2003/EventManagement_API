@@ -137,14 +137,14 @@ export const getDetailContract = async (req: Request, res: Response, next: NextF
 };
 
 export const getListContract = async (req: Request, res: Response, next: NextFunction) => {
-    const { name, limit, page, startDate, endDate, status } = req.query;
+    const { search, limit, page, startDate, endDate, status } = req.query;
 
     try {
         const query = ContractQuery.find()
             .populate('payment', { createdAt: false, updatedAt: false, __v: false })
             .select({ createdAt: false, updatedAt: false, __v: false });
-        if (name) {
-            query.and([{ name: { $regex: searchHelper(name as string) } }]);
+        if (search) {
+            query.and([{ name: { $regex: searchHelper(search as string) } }]);
         }
 
         if (status) {

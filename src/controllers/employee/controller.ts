@@ -103,6 +103,14 @@ export const getEmployeeList = async (req: Request, res: Response, next: NextFun
                     select: { _id: true, name: true },
                 },
             })
+            .populate({
+                path: 'contract',
+                select: { createdAt: false, updatedAt: false, __v: false },
+                populate: {
+                    path: 'payment',
+                    select: { createdAt: false, updatedAt: false, __v: false },
+                },
+            })
             .select({ createdAt: false, updatedAt: false, __v: false });
 
         if (search) {
@@ -127,9 +135,9 @@ export const getEmployeeList = async (req: Request, res: Response, next: NextFun
 
 export const uploadEmployeeAvatar = async (req: Request, res: Response, next: NextFunction) => {
     const avatar = req.file;
-    const { _id } = req.params;
+    const { employee_id } = res.locals;
     try {
-        const foundEmployee = await EmployeeQuery.findOne({ _id });
+        const foundEmployee = await EmployeeQuery.findOne({ _id: employee_id });
         if (!foundEmployee) {
             return next(createHttpError(404, 'Not found employee'));
         }
