@@ -20,6 +20,6 @@ contractRoutes
         Controller.deleteContract,
     );
 
-contractRoutes.route('/get-detail-contract/:_id').post(Authorization, Controller.getDetailContract);
+contractRoutes.route('/get-detail-contract/:_id').get(Authorization, Controller.getDetailContract);
 
-contractRoutes.route('/get-list-contract').post(Authorization, Controller.getListContract);
+contractRoutes.route('/get-list-contract').get(Authorization, Controller.getListContract);

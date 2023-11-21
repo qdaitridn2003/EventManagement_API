@@ -10,7 +10,7 @@ export const createContract = async (req: Request, res: Response, next: NextFunc
         startDate,
         endDate,
         status,
-        note,
+        contractNote,
         attachments,
         initialPayment,
         totalPayment,
@@ -48,11 +48,11 @@ export const createContract = async (req: Request, res: Response, next: NextFunc
             startDate,
             endDate,
             status,
-            note,
-            attachments,
+            note: contractNote,
+            attachments: attachments && JSON.parse(attachments as string),
         });
         await EmployeeQuery.updateOne({ _id: employeeId }, { contract: createdContract._id });
-        await ClientQuery.updateOne({ _id: clientId }, { contracts: { $push: createdContract._id } });
+        await ClientQuery.updateOne({ _id: clientId }, { $push: { contracts: createdContract._id } });
         next(createHttpSuccess(200, { contract: createdContract }));
     } catch (error) {
         next(error);
@@ -69,7 +69,14 @@ export const updateContract = async (req: Request, res: Response, next: NextFunc
         }
         await ContractQuery.updateOne(
             { _id: foundContract._id },
-            { name, startDate, endDate, status, note, attachments },
+            {
+                name,
+                startDate,
+                endDate,
+                status,
+                note,
+                attachments: attachments ? JSON.parse(attachments as string) : foundContract.attachments,
+            },
         );
         next(createHttpSuccess(200, {}));
     } catch (error) {
@@ -84,9 +91,10 @@ export const deleteContract = async (req: Request, res: Response, next: NextFunc
         if (!foundContract) {
             return next(createHttpError(404, 'Not found contract'));
         }
-        await EmployeeQuery.updateOne({ contract: foundContract._id }, { contract: null });
-        await ClientQuery.updateOne({ contract: foundContract._id }, { contracts: { $pull: foundContract } });
+        await EmployeeQuery.updateMany({ contract: foundContract._id }, { contract: null });
+        await ClientQuery.updateMany({ contracts: foundContract }, { $pull: { contracts: foundContract._id } });
         await ContractQuery.deleteOne({ _id });
+        await PaymentQuery.deleteOne({ _id: foundContract.payment });
         next(createHttpSuccess(200, {}));
     } catch (error) {
         next(error);
@@ -96,7 +104,7 @@ export const deleteContract = async (req: Request, res: Response, next: NextFunc
 export const getDetailContract = async (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.params;
     try {
-        const foundContract = await ContractQuery.find({ _id })
+        const foundContract = await ContractQuery.findOne({ _id })
             .populate('payment', { createdAt: false, updatedAt: false, __v: false })
             .select({
                 createdAt: false,
@@ -106,7 +114,23 @@ export const getDetailContract = async (req: Request, res: Response, next: NextF
         if (!foundContract) {
             return next(createHttpError(404, 'Not found contract'));
         }
-        next(createHttpSuccess(200, { contract: foundContract }));
+        const foundEmployee = await EmployeeQuery.findOne({ contract: foundContract._id }).select({
+            _id: true,
+            fullName: true,
+            avatar: true,
+        });
+        const foundClient = await ClientQuery.findOne({ contracts: foundContract }).select({
+            _id: true,
+            fullName: true,
+            avatar: true,
+        });
+        next(
+            createHttpSuccess(200, {
+                contract: foundContract,
+                employee: foundEmployee,
+                client: foundClient,
+            }),
+        );
     } catch (error) {
         next(error);
     }
@@ -114,14 +138,6 @@ export const getDetailContract = async (req: Request, res: Response, next: NextF
 
 export const getListContract = async (req: Request, res: Response, next: NextFunction) => {
     const { name, limit, page, startDate, endDate, status } = req.query;
-
-    if (
-        status !== ContractStatus.Active ||
-        status === ContractStatus.Cancelled ||
-        status === ContractStatus.Completed
-    ) {
-        return next(createHttpError(400, 'Invalid contract status'));
-    }
 
     try {
         const query = ContractQuery.find()
@@ -132,12 +148,20 @@ export const getListContract = async (req: Request, res: Response, next: NextFun
         }
 
         if (status) {
-            query.and([{ status: { $eq: status } }]);
+            if (
+                status !== ContractStatus.Active &&
+                status !== ContractStatus.Cancelled &&
+                status !== ContractStatus.Completed
+            ) {
+                return next(createHttpError(400, 'Invalid contract status'));
+            }
+            query.and([{ status: status }]);
         }
 
         if (startDate && endDate) {
             const startTimestamp = timestampHelper(new Date(startDate as string));
             const endTimestamp = timestampHelper(new Date(endDate as string));
+            const nowTimestamp = timestampHelper(new Date());
             if (startDate !== endDate) {
                 query.and([
                     { startDate: { $gte: startTimestamp.dateStart } },
@@ -146,7 +170,7 @@ export const getListContract = async (req: Request, res: Response, next: NextFun
             } else if (startDate === endDate) {
                 query.and([
                     { startDate: { $gte: startTimestamp.dateStart } },
-                    { endDate: { $lt: endTimestamp.dateEnd } },
+                    { endDate: { $lt: nowTimestamp.dateEnd } },
                 ]);
             }
         }
