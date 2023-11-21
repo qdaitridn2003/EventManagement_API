@@ -8,6 +8,7 @@ import { categoryRoutes } from './category';
 import { itemRoutes } from './item';
 import { serviceRoutes } from './service';
 import { timelineRoutes } from './timeline';
+import { transportRoutes } from './transport';
 export const apiControllers = Express.Router();
 
 apiControllers.use('/auth', authRoutes);
@@ -19,3 +20,4 @@ apiControllers.use('/category', categoryRoutes);
 apiControllers.use('/item', itemRoutes);
 apiControllers.use('/service', serviceRoutes);
 apiControllers.use('/timeline', timelineRoutes);
+apiControllers.use('/transport', transportRoutes);
