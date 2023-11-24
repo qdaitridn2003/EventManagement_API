@@ -1,0 +1,2074 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Event Management API Documentation",
+        "description": "This place is showing detail endpoint what this route receive",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/auth/sign-up": {
+            "post": {
+                "tags": ["Auth"],
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "username",
+                        "type": "string",
+                        "example": "example@mail.com",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "password",
+                        "type": "string",
+                        "example": "123456",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "confirmPassword",
+                        "type": "string",
+                        "example": "123456",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "roleId",
+                        "type": "string",
+                        "example": "1",
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/auth/resend-otp/confirm-email": {
+            "post": {
+                "tags": ["Auth"],
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "username",
+                        "type": "string",
+                        "example": "example@mail.com",
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/auth/resend-otp/reset-password": {
+            "post": {
+                "tags": ["Auth"],
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "username",
+                        "type": "string",
+                        "example": "example@mail.com",
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/auth/forgot-password": {
+            "post": {
+                "tags": ["Auth"],
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "username",
+                        "type": "string",
+                        "example": "example@mail.com",
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/auth/verify-otp": {
+            "post": {
+                "tags": ["Auth"],
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "otp",
+                        "type": "string",
+                        "example": "123456",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "otpSecret",
+                        "type": "string",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/auth/reset-password": {
+            "put": {
+                "tags": ["Auth"],
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "username",
+                        "type": "string",
+                        "example": "example@mail.com",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "password",
+                        "type": "string",
+                        "example": "123456",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "confirmPassword",
+                        "type": "string",
+                        "example": "123456",
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/auth/sign-in": {
+            "post": {
+                "tags": ["Auth"],
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "username",
+                        "type": "string",
+                        "example": "example@mail.com",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "password",
+                        "type": "string",
+                        "example": "123456",
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/auth/change-password": {
+            "put": {
+                "tags": ["Auth"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "oldPassword",
+                        "type": "string",
+                        "example": "123456",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "newPassword",
+                        "type": "string",
+                        "example": "123456",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "confirmPassword",
+                        "type": "string",
+                        "example": "123456",
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/auth/get-access-token": {
+            "post": {
+                "tags": ["Auth"],
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "accessToken",
+                        "type": "string",
+                        "example": "",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "refreshToken",
+                        "type": "string",
+                        "example": "",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "authId",
+                        "type": "string",
+                        "example": "1",
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/role/create-role": {
+            "post": {
+                "tags": ["Role"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "name",
+                        "type": "string",
+                        "example": "example",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "description",
+                        "type": "string",
+                        "example": "example",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "identify",
+                        "type": "number",
+                        "example": 1,
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/role/edit-role/{:_id}": {
+            "put": {
+                "tags": ["Role"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "_id",
+                        "in": "path",
+                        "required": true,
+                        "example": "1",
+                        "description": "",
+                        "type": "string"
+                    },
+                    {
+                        "in": "formData",
+                        "name": "name",
+                        "type": "string",
+                        "example": "example",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "description",
+                        "type": "string",
+                        "example": "example",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "identify",
+                        "type": "number",
+                        "example": 1,
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/role/delete-role/{:_id}": {
+            "delete": {
+                "tags": ["Role"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "_id",
+                        "in": "path",
+                        "required": true,
+                        "example": "1",
+                        "description": "",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/role/get-list-role": {
+            "get": {
+                "tags": ["Role"],
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/client/create-info-client": {
+            "post": {
+                "tags": ["Client"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "email",
+                        "type": "string",
+                        "required": true,
+                        "example": "example@mail.com",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "fullName",
+                        "type": "string",
+                        "required": true,
+                        "example": "example",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "gender",
+                        "required": true,
+                        "type": "string",
+                        "example": "male",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "dateOfBirth",
+                        "type": "date",
+                        "example": "2023-11-11T06:48:25.462+00:00",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "phoneNumber",
+                        "type": "date",
+                        "example": "0123456789",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "address",
+                        "type": "date",
+                        "example": "123 St Miami",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/client/update-info-client/{:_id}": {
+            "put": {
+                "tags": ["Client"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "type": "string",
+                        "required": true,
+                        "example": "1",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "email",
+                        "type": "string",
+                        "example": "example@mail.com",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "fullName",
+                        "type": "string",
+                        "example": "example",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "gender",
+                        "type": "string",
+                        "example": "male",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "dateOfBirth",
+                        "type": "date",
+                        "example": "2023-11-11T06:48:25.462+00:00",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "phoneNumber",
+                        "type": "date",
+                        "example": "0123456789",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "address",
+                        "type": "date",
+                        "example": "123 St Miami",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/client/delete-client/{:_id}": {
+            "delete": {
+                "tags": ["Client"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true,
+                        "type": "string",
+                        "example": "1",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/client/get-client-detail/{:_id}": {
+            "get": {
+                "tags": ["Client"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true,
+                        "type": "string",
+                        "example": "1",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/client/get-client-list": {
+            "get": {
+                "tags": ["Client"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "type": "string",
+                        "example": "10",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "type": "string",
+                        "example": "1",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "search",
+                        "type": "string",
+                        "example": "a",
+                        "description": "Using to search for client's full name or email "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/client/upload-avatar-client/{:_id}": {
+            "post": {
+                "tags": ["Client"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "type": "string",
+                        "required": true,
+                        "example": "1",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "avatar",
+                        "type": "file",
+                        "example": "",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/category/create-category": {
+            "post": {
+                "tags": ["Category"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "name",
+                        "type": "string",
+                        "required": true,
+                        "example": "example",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "description",
+                        "type": "string",
+                        "example": "example",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/category/update-category/{:_id}": {
+            "put": {
+                "tags": ["Category"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "type": "string",
+                        "required": true,
+                        "example": "1",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "name",
+                        "type": "string",
+                        "example": "example",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "description",
+                        "type": "string",
+                        "example": "example",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/category/delete-category/{:_id}": {
+            "delete": {
+                "tags": ["Category"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "type": "string",
+                        "required": true,
+                        "example": "1",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/category/get-list-category": {
+            "get": {
+                "tags": ["Category"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "type": "string",
+                        "example": "10",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "type": "string",
+                        "example": "1",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "search",
+                        "type": "string",
+                        "example": "a",
+                        "description": "Using to search for category's name "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/item/create-info-item": {
+            "post": {
+                "tags": ["Item"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "name",
+                        "type": "string",
+                        "required": true,
+                        "example": "example",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "description",
+                        "type": "string",
+                        "example": "example",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "quantityTotal",
+                        "type": "number",
+                        "example": "0",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "categoryId",
+                        "type": "string",
+                        "required": true,
+                        "example": "1",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/item/update-info-item/{:_id}": {
+            "put": {
+                "tags": ["Item"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "type": "string",
+                        "example": "1",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "name",
+                        "type": "string",
+                        "example": "example",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "description",
+                        "type": "string",
+                        "example": "example",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "quantityTotal",
+                        "type": "number",
+                        "example": "0",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "quantityUsed",
+                        "type": "number",
+                        "example": "0",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "categoryId",
+                        "type": "string",
+                        "example": "1",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/item/delete-info-item/{:_id}": {
+            "delete": {
+                "tags": ["Item"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "type": "string",
+                        "example": "1",
+                        "required": true,
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/item/get-detail-item/{:_id}": {
+            "get": {
+                "tags": ["Item"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "type": "string",
+                        "example": "1",
+                        "required": true,
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/item/get-list-item": {
+            "get": {
+                "tags": ["Item"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "type": "string",
+                        "example": "10",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "type": "string",
+                        "example": "1",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "search",
+                        "type": "string",
+                        "example": "a",
+                        "description": "Using to search for item's name "
+                    },
+                    {
+                        "in": "query",
+                        "name": "category",
+                        "type": "string",
+                        "example": "[\"Nội thất\"]",
+                        "description": "Data type is array string, it using for get item follow with its category"
+                    },
+                    {
+                        "in": "query",
+                        "name": "available",
+                        "type": "boolean",
+                        "example": "true",
+                        "description": "Search item by its quantity available "
+                    },
+                    {
+                        "in": "query",
+                        "name": "arrange",
+                        "type": "string",
+                        "example": "asc | desc",
+                        "description": "Search item by its quantity available "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/item/upload-image-item/{:_id}": {
+            "post": {
+                "tags": ["Item"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "type": "string",
+                        "required": true,
+                        "example": "1",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "image",
+                        "type": "file",
+                        "example": "",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/service/create-service": {
+            "post": {
+                "tags": ["Service"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "name",
+                        "type": "string",
+                        "example": "",
+                        "description": "<desc>",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "description",
+                        "type": "String",
+                        "example": "",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/service/update-service/{:_id}": {
+            "put": {
+                "tags": ["Service"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "type": "string",
+                        "required": true,
+                        "example": "1",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "name",
+                        "type": "string",
+                        "example": "example",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "description",
+                        "type": "string",
+                        "example": "example",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/service/delete-service/{:_id}": {
+            "delete": {
+                "tags": ["Service"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "type": "string",
+                        "required": true,
+                        "example": "1",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/service/get-service-detail/{:_id}": {
+            "get": {
+                "tags": ["Service"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "type": "string",
+                        "required": true,
+                        "example": "1",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/service/get-list-service": {
+            "get": {
+                "tags": ["Service"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "type": "string",
+                        "example": "10",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "type": "string",
+                        "example": "1",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "search",
+                        "type": "string",
+                        "example": "a",
+                        "description": "Using to search for service's name "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/timeline/create-timeline": {
+            "post": {
+                "tags": ["Timeline"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "name",
+                        "type": "string",
+                        "required": true,
+                        "example": "",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "description",
+                        "type": "string",
+                        "example": "",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "dateTime",
+                        "type": "date",
+                        "example": "2023-11-14T00:00:00.000+00:00",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "location",
+                        "type": "string",
+                        "example": "",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/timeline/update-timeline/{:_id}": {
+            "put": {
+                "tags": ["Timeline"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "name",
+                        "type": "string",
+                        "required": true,
+                        "example": "",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "description",
+                        "type": "string",
+                        "example": "",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "dateTime",
+                        "type": "date",
+                        "example": "2023-11-14T00:00:00.000+00:00",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "location",
+                        "type": "string",
+                        "example": "",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/timeline/delete-timeline/{:_id}": {
+            "delete": {
+                "tags": ["Timeline"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "type": "string",
+                        "example": "1",
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/timeline/get-timeline-detail/{:_id}": {
+            "get": {
+                "tags": ["Timeline"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "type": "string",
+                        "example": "1",
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/timeline/get-list-timeline": {
+            "get": {
+                "tags": ["Timeline"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "location",
+                        "type": "string",
+                        "example": "New York",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "search",
+                        "type": "string",
+                        "example": "",
+                        "description": "Using to search for timeline's name"
+                    },
+                    {
+                        "in": "formData",
+                        "name": "dateTime",
+                        "type": "string",
+                        "example": "2023-11-11",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "type": "string",
+                        "example": "10",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "type": "string",
+                        "example": "1",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "type": "string",
+                        "example": "10",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "type": "string",
+                        "example": "1",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "search",
+                        "type": "string",
+                        "example": "example",
+                        "description": "Using to search for timeline's name "
+                    },
+                    {
+                        "in": "query",
+                        "name": "location",
+                        "type": "string",
+                        "example": "example"
+                    },
+                    {
+                        "in": "query",
+                        "name": "dateTime",
+                        "type": "date",
+                        "example": "2023-11-14"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/contract/create-contract": {
+            "post": {
+                "tags": ["Contract"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "name",
+                        "type": "string",
+                        "example": "example",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "startDate",
+                        "type": "string",
+                        "example": "2023-01-01",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "endDate",
+                        "type": "string",
+                        "example": "2023-12-31",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "status",
+                        "type": "string",
+                        "example": "active | cancelled | completed",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "contractNote",
+                        "type": "string",
+                        "example": "example",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "attachments",
+                        "type": "string",
+                        "example": "[\"https://example.com\"]",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "totalPayment",
+                        "type": "number",
+                        "example": "1",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "initialPayment",
+                        "type": "number",
+                        "example": "1",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "discount",
+                        "type": "string",
+                        "example": "10%",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "methodPayment",
+                        "type": "string",
+                        "example": "transferring bank | cashing in",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "paymentNote",
+                        "type": "string",
+                        "example": "example",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "employeeId",
+                        "type": "string",
+                        "example": "1",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "clientId",
+                        "type": "string",
+                        "example": "1",
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/contract/update-contract/{:_id}": {
+            "put": {
+                "tags": ["Contract"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "name",
+                        "type": "string",
+                        "example": "example",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "startDate",
+                        "type": "string",
+                        "example": "2023-01-01",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "endDate",
+                        "type": "string",
+                        "example": "2023-12-31",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "status",
+                        "type": "string",
+                        "example": "active | cancelled | completed",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "contractNote",
+                        "type": "string",
+                        "example": "example",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "attachments",
+                        "type": "string",
+                        "example": "[\"https://example.com\"]",
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/contract/delete-contract/{:_id}": {
+            "delete": {
+                "tags": ["Contract"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "type": "string",
+                        "example": "1",
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/contract/get-detail-contract/{:_id}": {
+            "get": {
+                "tags": ["Contract"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "type": "string",
+                        "example": "1",
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/contract/get-list-contract": {
+            "get": {
+                "tags": ["Contract"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "search",
+                        "type": "string",
+                        "example": "example",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "type": "string",
+                        "example": "10",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "type": "string",
+                        "example": "1",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "status",
+                        "type": "string",
+                        "example": "[\"active\",\"cancelled\",\"completed\"]",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "startDate",
+                        "type": "string",
+                        "example": "2023-01-01",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "endDate",
+                        "type": "string",
+                        "example": "example",
+                        "description": "2023-12-31"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/employee/register-employee-profile": {
+            "post": {
+                "tags": ["Employee"],
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "authId",
+                        "type": "string",
+                        "example": "1",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "fullName",
+                        "type": "string",
+                        "example": "example",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "dateOfBirth",
+                        "type": "string",
+                        "example": "2023-11-11",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "phoneNumber",
+                        "type": "string",
+                        "example": "0123456789",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "gender",
+                        "type": "string",
+                        "example": "male | female",
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "address",
+                        "type": "string",
+                        "example": "123 St Miami",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/employee/update-employee-profile": {
+            "put": {
+                "tags": ["Employee"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "email",
+                        "type": "string",
+                        "example": "example@mail.com",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "fullName",
+                        "type": "string",
+                        "example": "example",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "dateOfBirth",
+                        "type": "string",
+                        "example": "2023-11-11",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "phoneNumber",
+                        "type": "string",
+                        "example": "0123456789",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "gender",
+                        "type": "string",
+                        "example": "male | female",
+                        "description": ""
+                    },
+                    {
+                        "in": "formData",
+                        "name": "address",
+                        "type": "string",
+                        "example": "123 St Miami",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/employee/get-employee-profile": {
+            "get": {
+                "tags": ["Employee"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/employee/get-employee-profile/{:_id}": {
+            "get": {
+                "tags": ["Employee"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "example": "",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/employee/get-employee-list": {
+            "get": {
+                "tags": ["Employee"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "search",
+                        "type": "string",
+                        "example": "example",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "type": "string",
+                        "example": "10",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "type": "string",
+                        "example": "1",
+                        "description": ""
+                    },
+                    {
+                        "in": "query",
+                        "name": "role",
+                        "type": "string",
+                        "example": "[\"Quản trị viên\"]",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/employee/upload-avatar-employee": {
+            "post": {
+                "tags": ["Employee"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "avatar",
+                        "example": "",
+                        "type": "file",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    }
+}
