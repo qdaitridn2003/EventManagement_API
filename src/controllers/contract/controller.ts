@@ -34,7 +34,9 @@ export const createContract = async (req: Request, res: Response, next: NextFunc
     }
 
     try {
-        const remainingPayment = parseFloat(totalPayment) - parseFloat(initialPayment) * discountHandleHelper(discount);
+        const discountAmount = parseFloat(totalPayment as string) * discountHandleHelper(discount);
+        const remainingPayment = parseFloat(totalPayment) - parseFloat(initialPayment) - discountAmount;
+        console.log(discountHandleHelper(discount));
         const createdPayment = await PaymentQuery.create({
             initialPayment,
             remainingPayment,

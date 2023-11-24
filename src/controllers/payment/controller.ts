@@ -11,10 +11,13 @@ export const updatePayment = async (req: Request, res: Response, next: NextFunct
         if (!foundPayment) {
             return next(createHttpError(404, 'Not found payment'));
         }
+        const discountAmount =
+            (totalPayment ? parseFloat(totalPayment) : foundPayment.totalPayment) *
+            discountHandleHelper(discount ? discount : foundPayment.discount);
         const remainingPayment =
-            ((totalPayment ? parseFloat(totalPayment) : foundPayment.totalPayment) -
-                (initialPayment ? parseFloat(initialPayment) : foundPayment.initialPayment)) *
-            discountHandleHelper(discount ?? foundPayment.discount);
+            (totalPayment ? parseFloat(totalPayment) : foundPayment.totalPayment) -
+            (initialPayment ? parseFloat(initialPayment) : foundPayment.initialPayment) -
+            discountAmount;
         await PaymentQuery.updateOne(
             { _id: foundPayment._id },
             {
