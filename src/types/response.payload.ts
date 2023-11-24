@@ -9,6 +9,4 @@ export type SuccessResponsePayloadType = {
     message: string;
 };
 
-export type ResponsePayloadType =
-    | ErrorResponsePayloadType
-    | SuccessResponsePayloadType;
+export type ResponsePayloadType = ErrorResponsePayloadType | SuccessResponsePayloadType;
