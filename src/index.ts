@@ -11,8 +11,8 @@ import * as ApiController from './controllers';
 import { ErrorHandler, ResponseHandler } from './middlewares';
 import * as SwaggerConfig from './configs/swagger.config.json';
 
-export const ApiApp = Express();
-const ApiServer = Http.createServer(ApiApp);
+const ApiApp = Express();
+export const ApiServer = Http.createServer(ApiApp);
 
 /*      Using Library Middlewares       */
 
