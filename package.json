@@ -6,7 +6,8 @@
   "author": "Quan Dai Tri",
   "scripts": {
     "dist": "yarn tsc",
-    "dev": "nodemon --exec ts-node ./src/index.ts"
+    "dev": "nodemon --exec ts-node ./src/index.ts",
+    "start": "npx ts-node ./src/index.ts,"
   },
   "license": "MIT",
   "dependencies": {
@@ -46,9 +47,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "nodemon": "^3.0.1",
-    "pre-commit": "^1.2.2",
     "prettier": "^3.0.3",
-    "rimraf": "^5.0.5",
     "ts-node": "^10.9.1"
   }
 }
