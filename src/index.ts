@@ -22,6 +22,9 @@ ApiApp.use(Compression({ level: 1, threshold: 128 /* 0.125KB */ }));
 
 ApiApp.use('/api', ApiController.apiControllers);
 ApiApp.use('/api-doc', SwaggerUI.serve, SwaggerUI.setup(SwaggerConfig));
+ApiApp.use('/', (req, res) => {
+    return res.redirect('/api-doc');
+});
 
 /*      Using Library Middlewares       */
 

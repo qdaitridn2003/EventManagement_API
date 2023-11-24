@@ -1,2 +1,2 @@
-eventmanagementadmin@mail.com
-123456789
+admin@mail.com
+admin@123
