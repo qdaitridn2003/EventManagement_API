@@ -34,7 +34,7 @@ ApiApp.use(ErrorHandler);
 
 /*      Main Endpoint      */
 
-MongoDBParty.devConnectionHandler();
+MongoDBParty.connectionHandler();
 
 ApiServer.listen(ApiConfigs.port, () => {
     console.log(`Server is listening on ${ApiConfigs.port}`);
