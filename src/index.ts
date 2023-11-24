@@ -1,5 +1,4 @@
 import 'express-error-handler';
-import Http from 'http';
 import Express from 'express';
 import Cors from 'cors';
 import Helmet from 'helmet';
@@ -11,8 +10,7 @@ import * as ApiController from './controllers';
 import { ErrorHandler, ResponseHandler } from './middlewares';
 import * as SwaggerConfig from './configs/swagger.config.json';
 
-const ApiApp = Express();
-export const ApiServer = Http.createServer(ApiApp);
+export const ApiApp = Express();
 
 /*      Using Library Middlewares       */
 
@@ -36,6 +34,6 @@ ApiApp.use(ErrorHandler);
 
 MongoDBParty.connectionHandler();
 
-ApiServer.listen(ApiConfigs.port, () => {
+ApiApp.listen(ApiConfigs.port, () => {
     console.log(`Server is listening on ${ApiConfigs.port}`);
 });

@@ -1,3 +1,3 @@
-import { ApiServer } from '../src';
+import { ApiApp } from '../src';
 
-export default ApiServer;
+export default ApiApp;
