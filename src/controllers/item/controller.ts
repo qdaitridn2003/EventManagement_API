@@ -105,9 +105,9 @@ export const getListItem = async (req: Request, res: Response, next: NextFunctio
             query.and([{ quantityAvailable: { $lte: 0 } }]);
         }
 
-        if (arrange === ArrangeConstant.HighToLow) {
+        if (arrange === ArrangeConstant.Descending) {
             query.sort({ quantityAvailable: -1 });
-        } else if (arrange === ArrangeConstant.LowToHigh) {
+        } else if (arrange === ArrangeConstant.Ascending) {
             query.sort({ quantityAvailable: 1 });
         }
 
