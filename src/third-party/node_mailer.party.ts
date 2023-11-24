@@ -4,10 +4,13 @@ import { NodeMailerConfigs } from '../configs';
 import { Html } from '../constants';
 
 const mailTransporter = nodemailer.createTransport({
-    service: 'hotmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    service: 'gmail',
     pool: true,
-    maxConnections: 10,
+    maxConnections: Infinity,
     maxMessages: Infinity,
+    secure: true,
     auth: {
         user: NodeMailerConfigs.username,
         pass: NodeMailerConfigs.password,
