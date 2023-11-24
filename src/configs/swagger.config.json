@@ -1606,8 +1606,8 @@
           {
             "in": "formData",
             "name": "discount",
-            "type": "number",
-            "example": "10",
+            "type": "string",
+            "example": "10%",
             "description": ""
           },
           {

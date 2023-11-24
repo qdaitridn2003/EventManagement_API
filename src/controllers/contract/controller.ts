@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { ClientQuery, ContractQuery, EmployeeQuery, PaymentQuery } from '../../models';
 import createHttpError from 'http-errors';
-import { createHttpSuccess, paginationHelper, searchHelper, timestampHelper } from '../../utils';
+import { createHttpSuccess, discountHandleHelper, paginationHelper, searchHelper, timestampHelper } from '../../utils';
 import { ContractStatus } from '../../constants';
 
 export const createContract = async (req: Request, res: Response, next: NextFunction) => {
@@ -34,9 +34,10 @@ export const createContract = async (req: Request, res: Response, next: NextFunc
     }
 
     try {
+        const remainingPayment = parseFloat(totalPayment) - parseFloat(initialPayment) * discountHandleHelper(discount);
         const createdPayment = await PaymentQuery.create({
             initialPayment,
-            remainingPayment: parseFloat(totalPayment) - parseFloat(initialPayment),
+            remainingPayment,
             totalPayment,
             discount,
             methodPayment,

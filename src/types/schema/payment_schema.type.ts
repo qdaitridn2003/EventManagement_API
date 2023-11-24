@@ -7,7 +7,7 @@ export type PaymentSchemaType = {
     initialPayment: number;
     remainingPayment: number;
     totalPayment: number;
-    discount: number;
+    discount: string;
     status: string;
     methodPayment: string;
     note: string;
