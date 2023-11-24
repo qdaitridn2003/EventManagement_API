@@ -9,6 +9,9 @@
     "dev": "nodemon --exec ts-node ./src/index.ts",
     "start": "npx ts-node ./src/index.ts,"
   },
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -18,7 +21,6 @@
     "express": "^4.18.2",
     "express-error-handler": "^1.1.0",
     "firebase": "^10.4.0",
-    "helmet": "^7.0.0",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.29.4",

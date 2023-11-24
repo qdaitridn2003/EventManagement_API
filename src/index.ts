@@ -1,7 +1,6 @@
 import 'express-error-handler';
 import Express from 'express';
 import Cors from 'cors';
-import Helmet from 'helmet';
 import Compression from 'compression';
 import * as SwaggerUI from 'swagger-ui-express';
 import { ApiConfigs } from './configs';
@@ -17,7 +16,6 @@ export const ApiApp = Express();
 ApiApp.use(Express.json());
 ApiApp.use(Express.urlencoded({ extended: false }));
 ApiApp.use(Cors({ origin: '*' }));
-ApiApp.use(Helmet());
 ApiApp.use(Compression({ level: 1, threshold: 128 /* 0.125KB */ }));
 
 /*      Main Endpoint      */
