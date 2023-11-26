@@ -1,46 +1,41 @@
 import { Request, Response, NextFunction } from 'express';
-import { TransportQuery, EmployeeQuery, EventQuery, RoleQuery, TimelineQuery } from '../../models';
-import { createHttpSuccess, paginationHelper, searchHelper, timestampHelper } from '../../utils';
-import { AuthSchemaType } from '../../types';
+import { TransportQuery, EmployeeQuery, RoleQuery, AuthQuery } from '../../models';
+import { createHttpSuccess, paginationHelper, searchHelper } from '../../utils';
 import createHttpError from 'http-errors';
 import { FirebaseParty } from '../../third-party';
 import { UploadType } from '../../constants';
 
 export const createTransport = async (req: Request, res: Response, next: NextFunction) => {
-    const { employee: employeeId, event: eventId, licensePlate, status, name, brand, color, availability } = req.body;
+    const { employeeId, licensePlate, status, name, brand, color, availability } = req.body;
+
+    if (!employeeId) {
+        return next(createHttpError(400, 'Employee must be have'));
+    }
+
     try {
-        const employeeResult = await EmployeeQuery.findOne({ _id: employeeId })
-            .populate({
-                path: 'auth',
-                select: { _id: true, role: true },
-                populate: {
-                    path: 'role',
-                    select: { _id: true, name: true },
-                },
-            })
-            .select({ createdAt: false, updatedAt: false, __v: false });
-        if (!employeeResult || !employeeResult.auth) {
-            return next(createHttpError(400, 'Employee has no auth information'));
+        const roleName = 'Tài Xế';
+
+        const driverRole = await RoleQuery.findOne({ name: roleName });
+
+        if (!driverRole) {
+            return next(createHttpError(400, 'Driver role not found'));
         }
 
-        const authEmployee = employeeResult.auth as AuthSchemaType;
-        if (!authEmployee || typeof authEmployee !== 'object' || !('role' in authEmployee)) {
-            return next(createHttpError(400, 'Invalid auth information in employee '));
-        }
+        const roleId = driverRole._id;
 
-        const roleId = authEmployee.role;
+        const authIds = await AuthQuery.find({ role: roleId }).select({ _id: true });
 
-        if (!roleId) {
-            return next(createHttpError(400, 'Role has no auth information'));
-        }
+        const employeeWithDriverRole = await EmployeeQuery.findOne({
+            _id: employeeId,
+            auth: { $in: authIds },
+        }).select({ _id: true });
 
-        const roleResult = await RoleQuery.findOne({ _id: roleId });
-
-        if (!roleResult || roleResult.name !== 'Tài Xế') {
+        if (!employeeWithDriverRole) {
             return next(createHttpError(400, 'Employee is not a driver'));
         }
+
         const createTransport = await TransportQuery.create({
-            employee: employeeResult._id,
+            employee: employeeId,
             licensePlate,
             status,
             name,
@@ -54,48 +49,44 @@ export const createTransport = async (req: Request, res: Response, next: NextFun
         return next(error);
     }
 };
+
 export const updateTransport = async (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.params;
-    const { employee: employeeId, event: eventId, licensePlate, status, name, brand, color, availability } = req.body;
+    const { employeeId, licensePlate, status, name, brand, color, availability } = req.body;
 
+    if (!employeeId) {
+        return next(createHttpError(400, 'Employee must be have'));
+    }
     try {
         const foundTransport = await TransportQuery.findOne({ _id });
+
         if (!foundTransport) {
             return next(createHttpError(404, 'Not found transport'));
         }
-        const employeeResult = await EmployeeQuery.findOne({ _id: employeeId })
-            .populate({
-                path: 'auth',
-                select: { _id: true, role: true },
-                populate: {
-                    path: 'role',
-                    select: { _id: true, name: true },
-                },
-            })
-            .select({ createdAt: false, updatedAt: false, __v: false });
-        if (!employeeResult) {
-            throw createHttpError(400, 'Invalid employee ID');
-        }
-        const authEmployee = employeeResult.auth as AuthSchemaType;
-        if (!authEmployee || typeof authEmployee !== 'object' || !('role' in authEmployee)) {
-            throw createHttpError(400, 'Invalid auth information in employee');
-        }
-        const roleId = authEmployee.role;
 
-        if (!roleId) {
-            throw createHttpError(400, 'Role has no auth information');
+        const driverRoleName = 'Tài Xế';
+        const driverRole = await RoleQuery.findOne({ name: driverRoleName });
+
+        if (!driverRole) {
+            return next(createHttpError(400, 'Driver role not found'));
         }
 
-        const roleResult = await RoleQuery.findOne({ _id: roleId });
+        const roleId = driverRole._id;
+        const authIds = await AuthQuery.find({ role: roleId }).select({ _id: true });
 
-        if (!roleResult || roleResult.name !== 'Tài Xế') {
-            throw createHttpError(400, 'Employee is not a driver');
+        const isEmployeeDriver = await EmployeeQuery.exists({
+            _id: employeeId,
+            auth: { $in: authIds },
+        });
+
+        if (!isEmployeeDriver) {
+            return next(createHttpError(400, 'Employee is not a driver'));
         }
 
         await TransportQuery.updateOne(
             { _id: foundTransport._id },
             {
-                employee: employeeResult._id,
+                employee: employeeId,
                 licensePlate,
                 status,
                 name,
@@ -109,6 +100,7 @@ export const updateTransport = async (req: Request, res: Response, next: NextFun
         return next(error);
     }
 };
+
 export const deleteTransport = async (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.params;
     try {
@@ -139,9 +131,9 @@ export const getListTransport = async (req: Request, res: Response, next: NextFu
         if (licensePlate) {
             query.and([{ licensePlate: { $regex: searchHelper(licensePlate as string) } }]);
         }
-        const totalTimeline = await query.clone().countDocuments();
-        const listTimeline = await query.limit(amount).skip(offset).exec();
-        return next(createHttpSuccess(200, { listTimeline, totalTimeline }));
+        const totalTransport = await query.clone().countDocuments();
+        const listTransport = await query.limit(amount).skip(offset).exec();
+        return next(createHttpSuccess(200, { totalTransport, listTransport }));
     } catch (error) {}
 };
 export const getTransportDetail = async (req: Request, res: Response, next: NextFunction) => {
