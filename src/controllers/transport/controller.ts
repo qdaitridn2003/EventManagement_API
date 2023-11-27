@@ -135,7 +135,7 @@ export const getListTransport = async (req: Request, res: Response, next: NextFu
         const listTransport = await query.limit(amount).skip(offset).exec();
         return next(createHttpSuccess(200, { totalTransport, listTransport }));
     } catch (error) {
-        return next()
+        return next(error);
     }
 };
 export const getTransportDetail = async (req: Request, res: Response, next: NextFunction) => {
