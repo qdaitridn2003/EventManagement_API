@@ -134,7 +134,9 @@ export const getListTransport = async (req: Request, res: Response, next: NextFu
         const totalTransport = await query.clone().countDocuments();
         const listTransport = await query.limit(amount).skip(offset).exec();
         return next(createHttpSuccess(200, { totalTransport, listTransport }));
-    } catch (error) {}
+    } catch (error) {
+        return next()
+    }
 };
 export const getTransportDetail = async (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.params;
