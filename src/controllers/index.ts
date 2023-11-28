@@ -11,6 +11,7 @@ import { timelineRoutes } from './timeline';
 import { contractRoutes } from './contract';
 import { transportRoutes } from './transport';
 import { paymentRoutes } from './payment';
+import { eventRoutes } from './event';
 export const apiControllers = Express.Router();
 
 apiControllers.use('/auth', authRoutes);
@@ -25,3 +26,4 @@ apiControllers.use('/timeline', timelineRoutes);
 apiControllers.use('/contract', contractRoutes);
 apiControllers.use('/transport', transportRoutes);
 apiControllers.use('/payment', paymentRoutes);
+apiControllers.use('/event', eventRoutes);

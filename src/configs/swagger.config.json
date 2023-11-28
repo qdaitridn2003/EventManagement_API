@@ -2078,7 +2078,7 @@
         }
       }
     },
-      "/api/transport/create-transport": {
+    "/api/transport/create-transport": {
       "post": {
         "tags": ["Transport"],
         "description": "",
@@ -2092,7 +2092,8 @@
           },
           {
             "in": "formData",
-            "name": "employee",
+            "name": "employeeId",
+            "required": true,
             "type": "string",
             "example": "1",
             "description": ""
@@ -2130,7 +2131,7 @@
             "in": "formData",
             "name": "color",
             "type": "string",
-            "example": "[Pink]",
+            "example": "Pink",
             "description": ""
           },
           {
@@ -2148,7 +2149,7 @@
         }
       }
     },
-      "/api/transport/update-transport/{:_id}": {
+    "/api/transport/update-transport/{:_id}": {
       "put": {
         "tags": ["Transport"],
         "description": "",
@@ -2170,7 +2171,7 @@
           },
           {
             "in": "formData",
-            "name": "employee",
+            "name": "employeeId",
             "type": "string",
             "example": "1",
             "description": ""
@@ -2194,8 +2195,7 @@
             "name": "name",
             "type": "string",
             "example": "example",
-            "description": "",
-            "required": true
+            "description": ""
           },
           {
             "in": "formData",
@@ -2226,7 +2226,7 @@
         }
       }
     },
-      "/api/transport/delete-transport/{:_id}": {
+    "/api/transport/delete-transport/{:_id}": {
       "delete": {
         "tags": ["Transport"],
         "description": "",
@@ -2254,7 +2254,7 @@
         }
       }
     },
-      "/api/transport/get-list-transport": {
+    "/api/transport/get-list-transport": {
       "get": {
         "tags": ["Transport"],
         "description": "",
@@ -2291,7 +2291,7 @@
             "in": "query",
             "name": "color",
             "type": "string",
-            "example": "[Pink]",
+            "example": "Pink",
             "description": ""
           },
           {
@@ -2316,7 +2316,7 @@
         }
       }
     },
-      "/api/transport/get-transport-detail/{:_id}": {
+    "/api/transport/get-transport-detail/{:_id}": {
       "get": {
         "tags": ["Transport"],
         "description": "",
@@ -2344,7 +2344,7 @@
         }
       }
     },
-      "/api/transport/upload-image-transport/{:_id}": {
+    "/api/transport/upload-image-transport/{:_id}": {
       "post": {
         "tags": ["Transport"],
         "description": "",
