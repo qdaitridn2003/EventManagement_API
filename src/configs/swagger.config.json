@@ -2077,6 +2077,307 @@
           }
         }
       }
+    },
+      "/api/transport/create-transport": {
+      "post": {
+        "tags": ["Transport"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "employee",
+            "type": "string",
+            "example": "1",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "licensePlate",
+            "type": "string",
+            "example": "example",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "status",
+            "type": "string",
+            "example": "example",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "type": "string",
+            "example": "example",
+            "description": "",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "brand",
+            "type": "string",
+            "example": "",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "color",
+            "type": "string",
+            "example": "[Pink]",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "availability",
+            "type": "string",
+            "example": "",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+      "/api/transport/update-transport/{:_id}": {
+      "put": {
+        "tags": ["Transport"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "example": "1",
+            "description": "",
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "employee",
+            "type": "string",
+            "example": "1",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "licensePlate",
+            "type": "string",
+            "example": "example",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "status",
+            "type": "string",
+            "example": "example",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "type": "string",
+            "example": "example",
+            "description": "",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "brand",
+            "type": "string",
+            "example": "",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "color",
+            "type": "string",
+            "example": "[Pink]",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "availability",
+            "type": "string",
+            "example": "",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+      "/api/transport/delete-transport/{:_id}": {
+      "delete": {
+        "tags": ["Transport"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "type": "string",
+            "example": "1",
+            "description": "",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+      "/api/transport/get-list-transport": {
+      "get": {
+        "tags": ["Transport"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "type": "string",
+            "example": "example",
+            "description": ""
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "string",
+            "example": "10",
+            "description": ""
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "string",
+            "example": "1",
+            "description": ""
+          },
+          {
+            "in": "query",
+            "name": "color",
+            "type": "string",
+            "example": "[Pink]",
+            "description": ""
+          },
+          {
+            "in": "query",
+            "name": "brand",
+            "type": "string",
+            "example": "example",
+            "description": ""
+          },
+          {
+            "in": "query",
+            "name": "licensePlate",
+            "type": "string",
+            "example": "example",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+      "/api/transport/get-transport-detail/{:_id}": {
+      "get": {
+        "tags": ["Transport"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "required": true,
+            "type": "string",
+            "example": "1",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+      "/api/transport/upload-image-transport/{:_id}": {
+      "post": {
+        "tags": ["Transport"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "type": "string",
+            "required": true,
+            "example": "1",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "image",
+            "type": "file",
+            "example": "",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   }
 }
