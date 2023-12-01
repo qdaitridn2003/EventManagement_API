@@ -24,6 +24,7 @@ export const registerEmployeeProfile = async (req: Request, res: Response, next:
             email: foundAccount.username,
             fullName,
             phoneNumber,
+            gender,
             address,
             dateOfBirth: new Date(dateOfBirth),
         });
