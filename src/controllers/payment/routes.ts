@@ -22,5 +22,5 @@ paymentRoutes
     .delete(
         Authorization,
         CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]),
-        Controller.getDetailPayment,
+        Controller.getListPayment,
     );

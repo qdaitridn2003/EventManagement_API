@@ -2378,6 +2378,490 @@
           }
         }
       }
+    },
+    "/api/payment/update-payment/{:_id}": {
+      "put": {
+        "tags": ["Payment"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "type": "string",
+            "required": true,
+            "example": "1",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "totalPayment",
+            "type": "number",
+            "example": "",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "initPayment",
+            "type": "number",
+            "example": "",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "discount",
+            "type": "string",
+            "example": "10%",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "status",
+            "type": "string",
+            "example": "",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "methodPayment",
+            "type": "string",
+            "example": "transferring bank | cashing in",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "note",
+            "type": "string",
+            "example": "",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/payment/delete-payment/{:_id}": {
+      "delete": {
+        "tags": ["Payment"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "type": "string",
+            "required": true,
+            "example": "1",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/payment/get-detail-payment/{:_id}": {
+      "get": {
+        "tags": ["Payment"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "type": "string",
+            "required": true,
+            "example": "1",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/payment/get-list-payment": {
+      "get": {
+        "tags": ["Payment"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string",
+            "example": "10"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "example": "1"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "type": "string array",
+            "example": "[\"abcxyz\"]"
+          },
+          {
+            "name": "methodPayment",
+            "in": "query",
+            "type": "string",
+            "example": "[\"transferring bank\",\"cashing in\"]"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/event/create-event": {
+      "post": {
+        "tags": ["Event"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "type": "string",
+            "example": "example",
+            "required": true
+          },
+          {
+            "name": "contractId",
+            "in": "formData",
+            "type": "string",
+            "example": "example"
+          },
+          {
+            "name": "serviceIds",
+            "in": "formData",
+            "type": "string array",
+            "example": "[\"example\"]"
+          },
+          {
+            "name": "employeeIds",
+            "in": "formData",
+            "type": "string array",
+            "example": "[\"example\"]"
+          },
+          {
+            "name": "timelineIds",
+            "in": "formData",
+            "type": "string array",
+            "example": "[\"example\"]"
+          },
+          {
+            "name": "equipmentIds",
+            "in": "formData",
+            "type": "string array",
+            "example": "[\"example\"]",
+            "description": "It's item id"
+          },
+          {
+            "name": "dateTime",
+            "in": "formData",
+            "type": "date",
+            "example": "2023-11-11"
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "type": "string",
+            "example": "example"
+          },
+          {
+            "name": "note",
+            "in": "formData",
+            "type": "string",
+            "example": "example"
+          },
+          {
+            "name": "attachments",
+            "in": "formData",
+            "type": "string",
+            "example": "[\"https://example.com\"]"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/event/update-event/{:_id}": {
+      "put": {
+        "tags": ["Event"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "type": "string",
+            "example": "1",
+            "required": true
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "type": "string",
+            "example": "example"
+          },
+          {
+            "name": "contractId",
+            "in": "formData",
+            "type": "string",
+            "example": "example"
+          },
+          {
+            "name": "serviceIds",
+            "in": "formData",
+            "type": "string array",
+            "example": "[\"example\"]"
+          },
+          {
+            "name": "employeeIds",
+            "in": "formData",
+            "type": "string array",
+            "example": "[\"example\"]"
+          },
+          {
+            "name": "timelineIds",
+            "in": "formData",
+            "type": "string array",
+            "example": "[\"example\"]"
+          },
+          {
+            "name": "equipmentIds",
+            "in": "formData",
+            "type": "string array",
+            "example": "[\"example\"]",
+            "description": "It's item id"
+          },
+          {
+            "name": "dateTime",
+            "in": "formData",
+            "type": "date",
+            "example": "2023-11-11"
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "type": "string",
+            "example": "example"
+          },
+          {
+            "name": "note",
+            "in": "formData",
+            "type": "string",
+            "example": "example"
+          },
+          {
+            "name": "attachments",
+            "in": "formData",
+            "type": "string",
+            "example": "[\"https://example.com\"]"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/event/delete-event/{:_id}": {
+      "delete": {
+        "tags": ["Event"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "type": "string",
+            "example": "1",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/event/get-detail-event/{:_id}": {
+      "get": {
+        "tags": ["Event"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "type": "string",
+            "example": "1",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/event/get-list-event": {
+      "get": {
+        "tags": ["Event"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string",
+            "example": "10"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "example": "1"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "type": "string",
+            "example": "example"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/event/upload-images-event": {
+      "post": {
+        "tags": ["Event"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "images",
+            "in": "formData",
+            "type": "file[]",
+            "example": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/event/upload-image-event": {
+      "post": {
+        "tags": ["Event"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "type": "file",
+            "example": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   }
 }

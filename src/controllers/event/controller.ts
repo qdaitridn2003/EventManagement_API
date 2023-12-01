@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import createHttpError from 'http-errors';
 import { EventQuery } from '../../models';
 import { createHttpSuccess, paginationHelper, searchHelper } from '../../utils';
-import { Multer } from 'multer';
 import { FirebaseParty } from '../../third-party';
 import { UploadType } from '../../constants';
 
