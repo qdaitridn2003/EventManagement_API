@@ -22,7 +22,7 @@ eventRoutes.route('/get-detail-event/:_id').get(Authorization, Controller.getDet
 eventRoutes.route('/get-list-event').get(Authorization, Controller.getListEvent);
 
 eventRoutes
-    .route('/upload-event-image')
+    .route('/upload-event-image/:_id')
     .post(
         Authorization,
         ImageHandler.single('image'),
@@ -31,10 +31,10 @@ eventRoutes
     );
 
 eventRoutes
-    .route('/upload-event-images')
+    .route('/upload-event-images/:_id')
     .post(
         Authorization,
-        ImageHandler.single('images'),
+        ImageHandler.array('images'),
         CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]),
         Controller.uploadImagesEvent,
     );

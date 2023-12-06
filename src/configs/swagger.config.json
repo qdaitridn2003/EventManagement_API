@@ -2811,7 +2811,7 @@
         }
       }
     },
-    "/api/event/upload-images-event": {
+    "/api/event/upload-images-event/{:_id}": {
       "post": {
         "tags": ["Event"],
         "description": "",
@@ -2821,6 +2821,13 @@
             "in": "header",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
             "type": "string",
+            "required": true
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "type": "string",
+            "example": "1",
             "required": true
           },
           {
@@ -2837,7 +2844,7 @@
         }
       }
     },
-    "/api/event/upload-image-event": {
+    "/api/event/upload-image-event/{:_id}": {
       "post": {
         "tags": ["Event"],
         "description": "",
@@ -2847,6 +2854,13 @@
             "in": "header",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
             "type": "string",
+            "required": true
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "type": "string",
+            "example": "1",
             "required": true
           },
           {
