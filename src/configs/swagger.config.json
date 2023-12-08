@@ -693,7 +693,7 @@
     },
     "/api/category/create-category": {
       "post": {
-        "tags": ["Category"],
+        "tags": ["Item Category"],
         "description": "",
         "parameters": [
           {
@@ -728,7 +728,7 @@
     },
     "/api/category/update-category/{:_id}": {
       "put": {
-        "tags": ["Category"],
+        "tags": ["Item Category"],
         "description": "",
         "parameters": [
           {
@@ -770,7 +770,7 @@
     },
     "/api/category/delete-category/{:_id}": {
       "delete": {
-        "tags": ["Category"],
+        "tags": ["Item Category"],
         "description": "",
         "parameters": [
           {
@@ -798,7 +798,7 @@
     },
     "/api/category/get-list-category": {
       "get": {
-        "tags": ["Category"],
+        "tags": ["Item Category"],
         "description": "",
         "parameters": [
           {
