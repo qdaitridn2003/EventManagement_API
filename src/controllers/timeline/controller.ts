@@ -56,7 +56,9 @@ export const getListTimeline = async (req: Request, res: Response, next: NextFun
 
     try {
         const { amount, offset } = paginationHelper(limit as string, page as string);
-        const query = TimelineQuery.find().select({ createdAt: false, updatedAt: false, __v: false });
+        const query = TimelineQuery.find()
+            .select({ createdAt: false, updatedAt: false, __v: false })
+            .sort({ createdAt: 'descending' });
 
         if (search) {
             query.and([{ name: { $regex: searchHelper(search as string) } }]);

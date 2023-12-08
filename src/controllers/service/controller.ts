@@ -53,7 +53,9 @@ export const getListService = async (req: Request, res: Response, next: NextFunc
     const { search, limit, page } = req.query;
     try {
         const { amount, offset } = paginationHelper(limit as string, page as string);
-        const query = ServiceQuery.find().select({ createdAt: false, updatedAt: false, __v: false });
+        const query = ServiceQuery.find()
+            .select({ createdAt: false, updatedAt: false, __v: false })
+            .sort({ createdAt: 'descending' });
 
         if (search) {
             query.and([{ name: { $regex: searchHelper(search as string) } }]);

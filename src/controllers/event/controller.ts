@@ -118,6 +118,7 @@ export const getListEvent = async (req: Request, res: Response, next: NextFuncti
     try {
         const query = EventQuery.find()
             .select({ createdAt: false, updatedAt: false, __v: false })
+            .sort({ createdAt: 'descending' })
             .populate('contract', { createdAt: false, updatedAt: false, __v: false })
             .populate('services', { createdAt: false, updatedAt: false, __v: false })
             .populate('employees', { createdAt: false, updatedAt: false, __v: false })
@@ -133,7 +134,7 @@ export const getListEvent = async (req: Request, res: Response, next: NextFuncti
 
         return next(createHttpSuccess(200, { listEvent, totalEvent }));
     } catch (error) {
-        return next(error);
+        next(error);
     }
 };
 

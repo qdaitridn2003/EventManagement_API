@@ -145,7 +145,9 @@ export const getListContract = async (req: Request, res: Response, next: NextFun
     try {
         const query = ContractQuery.find()
             .populate('payment', { createdAt: false, updatedAt: false, __v: false })
-            .select({ createdAt: false, updatedAt: false, __v: false });
+            .select({ createdAt: false, updatedAt: false, __v: false })
+            .sort({ createdAt: 'descending' });
+
         if (search) {
             query.and([{ name: { $regex: searchHelper(search as string) } }]);
         }

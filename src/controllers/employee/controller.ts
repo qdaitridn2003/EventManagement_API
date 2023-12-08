@@ -112,7 +112,8 @@ export const getEmployeeList = async (req: Request, res: Response, next: NextFun
                     select: { createdAt: false, updatedAt: false, __v: false },
                 },
             })
-            .select({ createdAt: false, updatedAt: false, __v: false });
+            .select({ createdAt: false, updatedAt: false, __v: false })
+            .sort({ createdAt: 'descending' });
 
         if (search) {
             query.and([{ fullName: { $regex: searchHelper(search as string) } }]);

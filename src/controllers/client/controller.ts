@@ -88,7 +88,8 @@ export const getListClient = async (req: Request, res: Response, next: NextFunct
                     select: { createdAt: false, updatedAt: false, __v: false },
                 },
             })
-            .select({ createdAt: false, updatedAt: false, __v: false });
+            .select({ createdAt: false, updatedAt: false, __v: false })
+            .sort({ createdAt: 'descending' });
 
         if (search) {
             query.and([

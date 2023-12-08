@@ -67,7 +67,9 @@ export const getListPayment = async (req: Request, res: Response, next: NextFunc
     const { limit, page, status, methodPayment } = req.query;
     try {
         const { amount, offset } = paginationHelper(limit as string, page as string);
-        const query = PaymentQuery.find().select({ createdAt: false, updatedAt: false, __v: false });
+        const query = PaymentQuery.find()
+            .select({ createdAt: false, updatedAt: false, __v: false })
+            .sort({ createdAt: 'descending' });
 
         if (status) {
             const parseStatus = JSON.parse(status as string);

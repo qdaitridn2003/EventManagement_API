@@ -87,7 +87,8 @@ export const getListItem = async (req: Request, res: Response, next: NextFunctio
         const { amount, offset } = paginationHelper(limit as string, page as string);
         const query = ItemQuery.find()
             .populate('category', { _id: true, name: true, description: true })
-            .select({ createdAt: false, updatedAt: false, __v: false });
+            .select({ createdAt: false, updatedAt: false, __v: false })
+            .sort({ createdAt: 'descending' });
 
         if (search) {
             query.and([{ name: { $regex: searchHelper(search as string) } }]);

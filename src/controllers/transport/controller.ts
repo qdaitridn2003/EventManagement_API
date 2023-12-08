@@ -118,7 +118,10 @@ export const getListTransport = async (req: Request, res: Response, next: NextFu
     const { search, limit, page, color, brand, licensePlate } = req.query;
     try {
         const { amount, offset } = paginationHelper(limit as string, page as string);
-        const query = TransportQuery.find().select({ createdAt: false, updatedAt: false, __v: false });
+        const query = TransportQuery.find()
+            .select({ createdAt: false, updatedAt: false, __v: false })
+            .sort({ createdAt: 'descending' });
+
         if (search) {
             query.and([{ name: { $regex: searchHelper(search as string) } }]);
         }
