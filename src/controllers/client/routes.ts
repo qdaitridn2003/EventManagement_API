@@ -1,5 +1,5 @@
 import Express from 'express';
-import * as controller from './controller';
+import * as Controller from './controller';
 import { Authorization, CheckRole, ImageHandler } from '../../middlewares';
 import { Identify } from '../../constants';
 
@@ -10,24 +10,24 @@ clientRoutes
     .post(
         Authorization,
         CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]),
-        controller.createInfoClient,
+        Controller.createInfoClient,
     );
 
 clientRoutes
     .route('/update-info-client/:_id')
-    .put(Authorization, CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]), controller.updateInfoClient);
+    .put(Authorization, CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]), Controller.updateInfoClient);
 
 clientRoutes
     .route('/delete-client/:_id')
-    .delete(Authorization, CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]), controller.deleteClient);
+    .delete(Authorization, CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]), Controller.deleteClient);
 
 clientRoutes
     .route('/get-client-detail/:_id')
-    .get(Authorization, CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]), controller.getClientDetail);
+    .get(Authorization, CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]), Controller.getClientDetail);
 
 clientRoutes
     .route('/get-client-list')
-    .get(Authorization, CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]), controller.getListClient);
+    .get(Authorization, CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]), Controller.getListClient);
 
 clientRoutes
     .route('/upload-avatar-client/:_id')
@@ -35,5 +35,5 @@ clientRoutes
         ImageHandler.single('avatar'),
         Authorization,
         CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]),
-        controller.uploadAvatarClient,
+        Controller.uploadAvatarClient,
     );

@@ -14,7 +14,7 @@ export const createInfoClient = async (req: Request, res: Response, next: NextFu
     }
 
     try {
-        await ClientQuery.create({
+        const createClient = await ClientQuery.create({
             email,
             fullName,
             phoneNumber,
@@ -22,7 +22,7 @@ export const createInfoClient = async (req: Request, res: Response, next: NextFu
             dataOfBirth: new Date(dateOfBirth),
             gender,
         });
-        return next(createHttpSuccess(200));
+        return next(createHttpSuccess(200, { client: createClient }));
     } catch (error) {
         return next(error);
     }
