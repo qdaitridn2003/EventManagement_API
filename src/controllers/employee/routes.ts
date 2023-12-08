@@ -17,4 +17,6 @@ employeeRoutes
     .route('/get-employee-list')
     .get(Authorization, CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]), Controller.getEmployeeList);
 
-employeeRoutes.route('/upload-avatar-employee').post(ImageHandler.single('avatar'), Controller.uploadEmployeeAvatar);
+employeeRoutes
+    .route('/upload-avatar-employee')
+    .post(Authorization, ImageHandler.single('avatar'), Controller.uploadEmployeeAvatar);
