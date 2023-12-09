@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { TransportQuery, EmployeeQuery, RoleQuery, AuthQuery } from '../../models';
+import { TransportQuery, EmployeeQuery, RoleQuery, AuthQuery, EventQuery } from '../../models';
 import { createHttpSuccess, paginationHelper, searchHelper } from '../../utils';
 import createHttpError from 'http-errors';
 import { FirebaseParty } from '../../third-party';
@@ -109,11 +109,13 @@ export const deleteTransport = async (req: Request, res: Response, next: NextFun
             return next(createHttpError(404, 'Not found transport'));
         }
         await TransportQuery.deleteOne({ _id: foundTransport._id });
+        await EventQuery.updateMany({ transports: foundTransport }, { $pull: { transports: foundTransport._id } });
         return next(createHttpSuccess(200));
     } catch (error) {
         return next(error);
     }
 };
+
 export const getListTransport = async (req: Request, res: Response, next: NextFunction) => {
     const { search, limit, page, color, brand, licensePlate } = req.query;
     try {
@@ -141,6 +143,7 @@ export const getListTransport = async (req: Request, res: Response, next: NextFu
         return next(error);
     }
 };
+
 export const getTransportDetail = async (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.params;
     try {

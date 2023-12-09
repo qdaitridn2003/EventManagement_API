@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { ServiceQuery } from '../../models';
+import { EventQuery, ServiceQuery } from '../../models';
 import { createHttpSuccess, paginationHelper, searchHelper } from '../../utils';
 import createHttpError from 'http-errors';
 
@@ -43,6 +43,7 @@ export const deleteService = async (req: Request, res: Response, next: NextFunct
             return next(createHttpError(404, 'Not found service'));
         }
         await ServiceQuery.deleteOne({ _id: foundService._id });
+        await EventQuery.updateMany({ services: foundService }, { $pull: { services: foundService._id } });
         return next(createHttpSuccess(200));
     } catch (error) {
         return next(error);
@@ -67,6 +68,7 @@ export const getListService = async (req: Request, res: Response, next: NextFunc
         return next(error);
     }
 };
+
 export const getServiceDetail = async (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.params;
     try {

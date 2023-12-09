@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { CategoryQuery, ItemQuery } from '../../models';
+import { CategoryQuery, EventQuery, ItemQuery } from '../../models';
 import { createHttpSuccess, paginationHelper, searchHelper } from '../../utils';
 import createHttpError from 'http-errors';
 import { ArrangeConstant, UploadType } from '../../constants';
@@ -60,6 +60,7 @@ export const deleteInfoItem = async (req: Request, res: Response, next: NextFunc
             return next(createHttpError(404, 'Not found item'));
         }
         await ItemQuery.deleteOne({ _id: foundItem._id });
+        await EventQuery.updateMany({ equipments: foundItem }, { $pull: { equipments: foundItem._id } });
         return next(createHttpSuccess(200));
     } catch (error) {
         return next(error);

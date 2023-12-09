@@ -1,32 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
-import { ClientQuery, ContractQuery, EmployeeQuery, PaymentQuery } from '../../models';
+import { ClientQuery, ContractQuery, EventQuery, PaymentQuery } from '../../models';
 import createHttpError from 'http-errors';
-import { createHttpSuccess, discountHandleHelper, paginationHelper, searchHelper, timestampHelper } from '../../utils';
-import { ContractStatus } from '../../constants';
+import { createHttpSuccess, paginationHelper, paymentHelper, searchHelper, timestampHelper } from '../../utils';
+import { EventSchemaType, PaymentSchemaType } from '../../types';
 
 export const createContract = async (req: Request, res: Response, next: NextFunction) => {
-    const {
-        name,
-        startDate,
-        endDate,
-        status,
-        contractNote,
-        attachments,
-        initialPayment,
-        totalPayment,
-        discount,
-        methodPayment,
-        paymentNote,
-        employeeId,
-        clientId,
-    } = req.body;
+    const { name, startDate, endDate, status, note, attachments, clientId, eventIds } = req.body;
+    const { employee_id } = res.locals;
 
     if (!name) {
         return next(createHttpError(400, 'Contract name must be not empty'));
-    }
-
-    if (!employeeId) {
-        return next(createHttpError(400, 'Employee must be have'));
     }
 
     if (!clientId) {
@@ -34,29 +17,18 @@ export const createContract = async (req: Request, res: Response, next: NextFunc
     }
 
     try {
-        const discountAmount = parseFloat(totalPayment as string) * discountHandleHelper(discount);
-        const remainingPayment = parseFloat(totalPayment) - parseFloat(initialPayment) - discountAmount;
-        console.log(discountHandleHelper(discount));
-        const createdPayment = await PaymentQuery.create({
-            initialPayment,
-            remainingPayment,
-            totalPayment,
-            discount,
-            methodPayment,
-            note: paymentNote,
-        });
         const createdContract = await ContractQuery.create({
-            payment: createdPayment._id,
             name,
             startDate,
             endDate,
             status,
-            note: contractNote,
+            note,
+            events: eventIds,
+            createdBy: employee_id,
             attachments: attachments && JSON.parse(attachments as string),
         });
-        await EmployeeQuery.updateOne({ _id: employeeId }, { contract: createdContract._id });
         await ClientQuery.updateOne({ _id: clientId }, { $push: { contracts: createdContract._id } });
-        next(createHttpSuccess(200, { contract: createdContract }));
+        return next(createHttpSuccess(200, { contract: createdContract }));
     } catch (error) {
         next(error);
     }
@@ -64,7 +36,9 @@ export const createContract = async (req: Request, res: Response, next: NextFunc
 
 export const updateContract = async (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.params;
-    const { name, startDate, endDate, status, note, attachments } = req.body;
+    const { name, startDate, endDate, status, note, attachments, eventIds } = req.body;
+    const { employee_id } = res.locals;
+
     try {
         const foundContract = await ContractQuery.findOne({ _id });
         if (!foundContract) {
@@ -78,10 +52,12 @@ export const updateContract = async (req: Request, res: Response, next: NextFunc
                 endDate,
                 status,
                 note,
+                events: eventIds,
+                updatedBy: employee_id,
                 attachments: attachments ? JSON.parse(attachments as string) : foundContract.attachments,
             },
         );
-        next(createHttpSuccess(200, {}));
+        return next(createHttpSuccess(200, {}));
     } catch (error) {
         next(error);
     }
@@ -90,15 +66,25 @@ export const updateContract = async (req: Request, res: Response, next: NextFunc
 export const deleteContract = async (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.params;
     try {
-        const foundContract = await ContractQuery.findOne({ _id });
+        const foundContract = await ContractQuery.findOne({ _id }).populate({
+            path: 'event',
+            select: { createdAt: false, updatedAt: false, __v: false },
+            populate: { path: 'payment' },
+        });
+
         if (!foundContract) {
             return next(createHttpError(404, 'Not found contract'));
         }
-        await EmployeeQuery.updateMany({ contract: foundContract._id }, { contract: null });
+
+        const paymentIds = (foundContract.events as EventSchemaType[]).map(
+            (event) => (event.payment as PaymentSchemaType)._id,
+        );
+
+        await EventQuery.deleteMany({ _id: { $in: foundContract.events } });
+        await PaymentQuery.deleteMany({ _id: { $in: paymentIds } });
         await ClientQuery.updateMany({ contracts: foundContract }, { $pull: { contracts: foundContract._id } });
         await ContractQuery.deleteOne({ _id });
-        await PaymentQuery.deleteOne({ _id: foundContract.payment });
-        next(createHttpSuccess(200, {}));
+        return next(createHttpSuccess(200, {}));
     } catch (error) {
         next(error);
     }
@@ -108,34 +94,42 @@ export const getDetailContract = async (req: Request, res: Response, next: NextF
     const { _id } = req.params;
     try {
         const foundContract = await ContractQuery.findOne({ _id })
-            .populate('payment', { createdAt: false, updatedAt: false, __v: false })
+            .populate({
+                path: 'events',
+                select: { createdAt: false, updatedAt: false, __v: false },
+                populate: { path: 'payment' },
+            })
             .select({
                 createdAt: false,
                 updatedAt: false,
                 __v: false,
             });
+
         if (!foundContract) {
             return next(createHttpError(404, 'Not found contract'));
         }
-        const foundEmployee = await EmployeeQuery.findOne({ contract: foundContract._id }).select({
-            _id: true,
-            fullName: true,
-            avatar: true,
-        });
+
         const foundClient = await ClientQuery.findOne({ contracts: foundContract }).select({
             _id: true,
             fullName: true,
             avatar: true,
         });
-        next(
+
+        const totalPayment = paymentHelper('total', foundContract);
+        const initialPayment = paymentHelper('initial', foundContract);
+        const remainingPayment = paymentHelper('remaining', foundContract);
+
+        return next(
             createHttpSuccess(200, {
-                contract: foundContract,
-                employee: foundEmployee,
                 client: foundClient,
+                contract: foundContract,
+                totalPayment,
+                initialPayment,
+                remainingPayment,
             }),
         );
     } catch (error) {
-        next(error);
+        return next(error);
     }
 };
 
@@ -144,7 +138,7 @@ export const getListContract = async (req: Request, res: Response, next: NextFun
 
     try {
         const query = ContractQuery.find()
-            .populate('payment', { createdAt: false, updatedAt: false, __v: false })
+            .populate('employee', { createdAt: false, updatedAt: false, __v: false })
             .select({ createdAt: false, updatedAt: false, __v: false })
             .sort({ createdAt: 'descending' });
 
@@ -176,7 +170,7 @@ export const getListContract = async (req: Request, res: Response, next: NextFun
         const { amount, offset } = paginationHelper(limit as string, page as string);
         const totalContract = await query.clone().countDocuments();
         const listContract = await query.limit(amount).skip(offset).exec();
-        next(createHttpSuccess(200, { listContract, totalContract }));
+        return next(createHttpSuccess(200, { listContract, totalContract }));
     } catch (error) {
         next(error);
     }

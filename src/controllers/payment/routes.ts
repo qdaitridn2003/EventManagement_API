@@ -6,6 +6,10 @@ import { Identify } from '../../constants';
 export const paymentRoutes = Express.Router();
 
 paymentRoutes
+    .route('/create-payment')
+    .post(Authorization, CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]), Controller.createPayment);
+
+paymentRoutes
     .route('/update-payment/:_id')
     .put(Authorization, CheckRole([Identify.Admin, Identify.Manager, Identify.Assistant]), Controller.updatePayment);
 

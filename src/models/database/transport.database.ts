@@ -4,7 +4,6 @@ import { TransportSchemaType } from '../../types';
 const transportSchema = new Schema<TransportSchemaType>(
     {
         _id: { type: Schema.Types.ObjectId, auto: true },
-        event: { type: Schema.Types.ObjectId, ref: 'event', default: null },
         employee: { type: Schema.Types.ObjectId, ref: 'employee', default: null },
         licensePlate: { type: Schema.Types.String },
         status: { type: Schema.Types.String },

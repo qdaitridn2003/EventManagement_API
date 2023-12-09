@@ -10,6 +10,7 @@ const eventSchema = new Schema<EventSchemaType>(
         employees: [{ type: Schema.Types.ObjectId, ref: 'employee', default: null }],
         timelines: [{ type: Schema.Types.ObjectId, ref: 'timeline', default: null }],
         equipments: [{ type: Schema.Types.ObjectId, ref: 'item', default: null }],
+        transports: [{ type: Schema.Types.ObjectId, ref: 'transport', default: null }],
         dateTime: { type: Schema.Types.Date },
         status: { type: Schema.Types.String },
         note: { type: Schema.Types.String },

@@ -1,30 +1,54 @@
 import { Request, Response, NextFunction } from 'express';
-import { PaymentQuery } from '../../models';
+import { EventQuery, PaymentQuery } from '../../models';
 import createHttpError from 'http-errors';
-import { createHttpSuccess, discountHandleHelper, paginationHelper, searchHelper } from '../../utils';
+import { createHttpSuccess, paginationHelper, remainingPaymentHelper } from '../../utils';
+
+export const createPayment = async (req: Request, res: Response, next: NextFunction) => {
+    const { totalPayment, initialPayment, discount, status, methodPayment, note } = req.body;
+
+    if (!totalPayment && !initialPayment) {
+        return next(createHttpError(400, 'Total and initial payment must be not empty or equal to zero'));
+    }
+
+    try {
+        const remainingPayment = remainingPaymentHelper(totalPayment, initialPayment, discount);
+        const createdPayment = await PaymentQuery.create({
+            totalPayment,
+            initialPayment,
+            remainingPayment,
+            discount,
+            status,
+            methodPayment,
+            note,
+        });
+        return next(createHttpSuccess(200, { payment: createdPayment }));
+    } catch (error) {
+        next(error);
+    }
+};
 
 export const updatePayment = async (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.params;
-    const { totalPayment, initialPayment, discount, status, methodPayment, note } = req.body;
+    const { totalPayment, initialPayment, status, discount, methodPayment, note } = req.body;
+
     try {
         const foundPayment = await PaymentQuery.findById(_id);
         if (!foundPayment) {
             return next(createHttpError(404, 'Not found payment'));
         }
-        const discountAmount =
-            (totalPayment ? parseFloat(totalPayment) : foundPayment.totalPayment) *
-            discountHandleHelper(discount ? discount : foundPayment.discount);
-        const remainingPayment =
-            (totalPayment ? parseFloat(totalPayment) : foundPayment.totalPayment) -
-            (initialPayment ? parseFloat(initialPayment) : foundPayment.initialPayment) -
-            discountAmount;
+
+        const remainingPayment = remainingPaymentHelper(
+            totalPayment ?? foundPayment.totalPayment,
+            initialPayment ?? foundPayment.initialPayment,
+            discount ?? foundPayment.discount,
+        );
+
         await PaymentQuery.updateOne(
             { _id: foundPayment._id },
             {
                 totalPayment,
                 initialPayment,
                 remainingPayment,
-                discount,
                 status,
                 methodPayment,
                 note,
@@ -44,6 +68,7 @@ export const deletePayment = async (req: Request, res: Response, next: NextFunct
             return next(createHttpError(404, 'Not found payment'));
         }
         await PaymentQuery.deleteOne({ _id: foundPayment._id });
+        await EventQuery.updateOne({ payment: foundPayment._id }, { payment: null });
         next(createHttpSuccess(200, {}));
     } catch (error) {
         next(error);

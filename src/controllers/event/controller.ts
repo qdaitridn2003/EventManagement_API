@@ -1,23 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import createHttpError from 'http-errors';
-import { EventQuery } from '../../models';
+import { ContractQuery, EventQuery, PaymentQuery, TransportQuery } from '../../models';
 import { createHttpSuccess, paginationHelper, searchHelper } from '../../utils';
 import { FirebaseParty } from '../../third-party';
-import { UploadType } from '../../constants';
+import { Identify, UploadType } from '../../constants';
 
 export const createEvent = async (req: Request, res: Response, next: NextFunction) => {
-    const {
-        name,
-        contractId,
-        serviceIds,
-        employeeIds,
-        timelineIds,
-        equipmentIds,
-        dateTime,
-        status,
-        note,
-        attachments,
-    } = req.body;
+    const { name, dateTime, status, note, attachments } = req.body;
+    const { paymentId, transportIds, serviceIds, employeeIds, timelineIds, equipmentIds } = req.body;
 
     if (!name) {
         return next(createHttpError(400, 'Event name must be not empty'));
@@ -26,10 +16,11 @@ export const createEvent = async (req: Request, res: Response, next: NextFunctio
     try {
         const createdEvent = await EventQuery.create({
             name,
-            contract: contractId,
+            payment: paymentId,
             services: serviceIds,
             employees: employeeIds,
             timelines: timelineIds,
+            transports: transportIds,
             equipments: equipmentIds,
             dateTime: new Date(dateTime),
             status,
@@ -46,7 +37,7 @@ export const updateEvent = async (req: Request, res: Response, next: NextFunctio
     const { _id } = req.params;
     const {
         name,
-        contractId,
+        paymentId,
         serviceIds,
         employeeIds,
         timelineIds,
@@ -55,6 +46,7 @@ export const updateEvent = async (req: Request, res: Response, next: NextFunctio
         status,
         note,
         attachments,
+        transportIds,
     } = req.body;
     try {
         const foundEvent = await EventQuery.findOne({ _id });
@@ -65,11 +57,12 @@ export const updateEvent = async (req: Request, res: Response, next: NextFunctio
             { _id: foundEvent._id },
             {
                 name,
-                contract: contractId,
+                payment: paymentId,
                 services: serviceIds,
                 employees: employeeIds,
                 timelines: timelineIds,
                 equipments: equipmentIds,
+                transports: transportIds,
                 dateTime: new Date(dateTime),
                 status,
                 note,
@@ -90,6 +83,9 @@ export const deleteEvent = async (req: Request, res: Response, next: NextFunctio
             return next(createHttpError(404, 'Not found event'));
         }
         await EventQuery.deleteOne({ _id: foundEvent._id });
+        await PaymentQuery.deleteOne({ _id: foundEvent.payment });
+        await ContractQuery.updateMany({ events: foundEvent }, { $pull: { events: foundEvent._id } });
+        await TransportQuery.updateMany({ event: foundEvent._id }, { event: null });
         return next(createHttpSuccess(200, {}));
     } catch (error) {
         return next(error);
@@ -101,7 +97,7 @@ export const getDetailEvent = async (req: Request, res: Response, next: NextFunc
     try {
         const foundEvent = await EventQuery.findOne({ _id })
             .select({ createdAt: false, updatedAt: false, __v: false })
-            .populate('contract', { createdAt: false, updatedAt: false, __v: false })
+            .populate('payment', { createdAt: false, updatedAt: false, __v: false })
             .populate('services', { createdAt: false, updatedAt: false, __v: false })
             .populate('employees', { createdAt: false, updatedAt: false, __v: false })
             .populate('timelines', { createdAt: false, updatedAt: false, __v: false })
@@ -115,18 +111,24 @@ export const getDetailEvent = async (req: Request, res: Response, next: NextFunc
 export const getListEvent = async (req: Request, res: Response, next: NextFunction) => {
     const { limit, page, search } = req.query;
     const { amount, offset } = paginationHelper(limit as string, page as string);
+    const { identify, employee_id } = res.locals;
     try {
         const query = EventQuery.find()
             .select({ createdAt: false, updatedAt: false, __v: false })
             .sort({ createdAt: 'descending' })
-            .populate('contract', { createdAt: false, updatedAt: false, __v: false })
+            .populate('payment', { createdAt: false, updatedAt: false, __v: false })
             .populate('services', { createdAt: false, updatedAt: false, __v: false })
             .populate('employees', { createdAt: false, updatedAt: false, __v: false })
             .populate('timelines', { createdAt: false, updatedAt: false, __v: false })
-            .populate('equipments', { createdAt: false, updatedAt: false, __v: false });
+            .populate('equipments', { createdAt: false, updatedAt: false, __v: false })
+            .populate('transports', { createdAt: false, updatedAt: false, __v: false });
 
         if (search) {
             query.and([{ name: searchHelper(search as string) }]);
+        }
+
+        if (identify !== Identify.Admin) {
+            query.and([{ employees: { $in: [employee_id] } }]);
         }
 
         const totalEvent = await query.clone().countDocuments();

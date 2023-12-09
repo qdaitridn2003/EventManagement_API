@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { CategoryQuery } from '../../models';
+import { CategoryQuery, EventQuery, ItemQuery } from '../../models';
 import { createHttpSuccess, paginationHelper, searchHelper } from '../../utils';
 import createHttpError from 'http-errors';
 
@@ -44,7 +44,10 @@ export const deleteCategory = async (req: Request, res: Response, next: NextFunc
             return next(createHttpError(404, 'Not found type item'));
         }
 
+        const itemIds = await ItemQuery.find({ category: foundCategory }).select({ _id: true });
         await CategoryQuery.deleteOne({ _id: foundCategory._id });
+        await ItemQuery.deleteMany({ category: foundCategory._id });
+        await EventQuery.updateMany({ equipments: { $in: itemIds } }, { $pullAll: { equipments: itemIds } });
         return next(createHttpSuccess(200));
     } catch (error) {
         return next(error);

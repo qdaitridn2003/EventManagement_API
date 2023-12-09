@@ -6,6 +6,7 @@ export type PaymentSchemaType = {
     remainingPayment: number;
     totalPayment: number;
     status: string;
+    discount: number;
     methodPayment: string;
     note: string;
 };

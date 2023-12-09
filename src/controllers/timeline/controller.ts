@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { TimelineQuery } from '../../models';
+import { EventQuery, TimelineQuery } from '../../models';
 import { createHttpSuccess, paginationHelper, searchHelper, timestampHelper } from '../../utils';
 import createHttpError from 'http-errors';
 
@@ -24,6 +24,7 @@ export const createTimeline = async (req: Request, res: Response, next: NextFunc
         return next(error);
     }
 };
+
 export const updateTimeLine = async (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.params;
     const { name, description, dataTime, location } = req.body;
@@ -38,6 +39,7 @@ export const updateTimeLine = async (req: Request, res: Response, next: NextFunc
         return next(error);
     }
 };
+
 export const deleteTimeline = async (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.params;
     try {
@@ -46,11 +48,13 @@ export const deleteTimeline = async (req: Request, res: Response, next: NextFunc
             return next(createHttpError(404, 'Not found timeline'));
         }
         await TimelineQuery.deleteOne({ _id: foundTimeline._id });
+        await EventQuery.updateMany({ timelines: foundTimeline }, { $pull: { timelines: foundTimeline._id } });
         return next(createHttpSuccess(200));
     } catch (error) {
         return next(error);
     }
 };
+
 export const getListTimeline = async (req: Request, res: Response, next: NextFunction) => {
     const { search, limit, page, dateTime, location } = req.query;
 
@@ -78,6 +82,7 @@ export const getListTimeline = async (req: Request, res: Response, next: NextFun
         return next(error);
     }
 };
+
 export const getTimelineDetail = async (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.params;
     try {
