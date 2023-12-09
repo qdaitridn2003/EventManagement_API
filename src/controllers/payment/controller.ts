@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { EventQuery, PaymentQuery } from '../../models';
 import createHttpError from 'http-errors';
-import { createHttpSuccess, paginationHelper, remainingPaymentHelper } from '../../utils';
+import { createHttpSuccess, discountPaymentHelper, paginationHelper } from '../../utils';
 
 export const createPayment = async (req: Request, res: Response, next: NextFunction) => {
     const { totalPayment, initialPayment, discount, status, methodPayment, note } = req.body;
@@ -11,7 +11,8 @@ export const createPayment = async (req: Request, res: Response, next: NextFunct
     }
 
     try {
-        const remainingPayment = remainingPaymentHelper(totalPayment, initialPayment, discount);
+        const handledTotalPayment = discountPaymentHelper(totalPayment, discount);
+        const remainingPayment = handledTotalPayment - initialPayment;
         const createdPayment = await PaymentQuery.create({
             totalPayment,
             initialPayment,
@@ -37,11 +38,11 @@ export const updatePayment = async (req: Request, res: Response, next: NextFunct
             return next(createHttpError(404, 'Not found payment'));
         }
 
-        const remainingPayment = remainingPaymentHelper(
+        const handledTotalPayment = discountPaymentHelper(
             totalPayment ?? foundPayment.totalPayment,
-            initialPayment ?? foundPayment.initialPayment,
             discount ?? foundPayment.discount,
         );
+        const remainingPayment = handledTotalPayment - initialPayment;
 
         await PaymentQuery.updateOne(
             { _id: foundPayment._id },

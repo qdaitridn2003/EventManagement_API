@@ -26,7 +26,7 @@ export const registerEmployeeProfile = async (req: Request, res: Response, next:
             phoneNumber,
             gender,
             address,
-            dateOfBirth: new Date(dateOfBirth),
+            dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : new Date(),
         });
         return next(createHttpSuccess(200, { employee: createdEmployee }));
     } catch (error) {
@@ -50,7 +50,14 @@ export const updateEmployeeProfile = async (req: Request, res: Response, next: N
 
         await EmployeeQuery.updateOne(
             { _id: foundEmployee._id },
-            { email, fullName, dateOfBirth, gender, phoneNumber, address },
+            {
+                email,
+                fullName,
+                dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : new Date(foundEmployee.dateOfBirth),
+                gender,
+                phoneNumber,
+                address,
+            },
         );
         return next(createHttpSuccess(200));
     } catch (error) {
@@ -70,14 +77,6 @@ export const getEmployeeProfile = async (req: Request, res: Response, next: Next
                 populate: {
                     path: 'role',
                     select: { _id: true, name: true },
-                },
-            })
-            .populate({
-                path: 'contract',
-                select: { createdAt: false, updatedAt: false, __v: false },
-                populate: {
-                    path: 'payment',
-                    select: { createdAt: false, updatedAt: false, __v: false },
                 },
             })
             .select({ createdAt: false, updatedAt: false, __v: false });
@@ -102,14 +101,6 @@ export const getEmployeeList = async (req: Request, res: Response, next: NextFun
                 populate: {
                     path: 'role',
                     select: { _id: true, name: true },
-                },
-            })
-            .populate({
-                path: 'contract',
-                select: { createdAt: false, updatedAt: false, __v: false },
-                populate: {
-                    path: 'payment',
-                    select: { createdAt: false, updatedAt: false, __v: false },
                 },
             })
             .select({ createdAt: false, updatedAt: false, __v: false })

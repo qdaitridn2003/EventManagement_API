@@ -463,21 +463,21 @@
           {
             "in": "formData",
             "name": "dateOfBirth",
-            "type": "date",
-            "example": "2023-11-11T06:48:25.462+00:00",
+            "type": "string",
+            "example": "2023-11-11",
             "description": ""
           },
           {
             "in": "formData",
             "name": "phoneNumber",
-            "type": "date",
+            "type": "string",
             "example": "0123456789",
             "description": ""
           },
           {
             "in": "formData",
             "name": "address",
-            "type": "date",
+            "type": "string",
             "example": "123 St Miami",
             "description": ""
           }
@@ -533,21 +533,21 @@
           {
             "in": "formData",
             "name": "dateOfBirth",
-            "type": "date",
-            "example": "2023-11-11T06:48:25.462+00:00",
+            "type": "string",
+            "example": "2023-11-11",
             "description": ""
           },
           {
             "in": "formData",
             "name": "phoneNumber",
-            "type": "date",
+            "type": "string",
             "example": "0123456789",
             "description": ""
           },
           {
             "in": "formData",
             "name": "address",
-            "type": "date",
+            "type": "string",
             "example": "123 St Miami",
             "description": ""
           }
@@ -1308,7 +1308,7 @@
           {
             "in": "formData",
             "name": "dateTime",
-            "type": "date",
+            "type": "timestamps",
             "example": "2023-11-14T00:00:00.000+00:00",
             "description": "",
             "required": true
@@ -1358,7 +1358,7 @@
           {
             "in": "formData",
             "name": "dateTime",
-            "type": "date",
+            "type": "timestamps",
             "example": "2023-11-14T00:00:00.000+00:00",
             "description": ""
 
@@ -1512,14 +1512,7 @@
             "name": "location",
             "type": "string",
             "example": "example"
-          },
-          {
-            "in": "query",
-            "name": "dateTime",
-            "type": "date",
-            "example": "2023-11-14"
           }
-
         ],
         "responses": {
           "200": {
@@ -1574,7 +1567,7 @@
           },
           {
             "in": "formData",
-            "name": "contractNote",
+            "name": "note",
             "type": "string",
             "example": "example",
             "description": "",
@@ -1590,45 +1583,9 @@
           },
           {
             "in": "formData",
-            "name": "totalPayment",
-            "type": "number",
-            "example": "1",
-            "description": "",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "initialPayment",
-            "type": "number",
-            "example": "1",
-            "description": ""
-          },
-          {
-            "in": "formData",
-            "name": "discount",
+            "name": "eventIds",
             "type": "string",
-            "example": "10%",
-            "description": ""
-          },
-          {
-            "in": "formData",
-            "name": "methodPayment",
-            "type": "string",
-            "example": "transferring bank | cashing in",
-            "description": ""
-          },
-          {
-            "in": "formData",
-            "name": "paymentNote",
-            "type": "string",
-            "example": "example",
-            "description": ""
-          },
-          {
-            "in": "formData",
-            "name": "employeeId",
-            "type": "string",
-            "example": "1",
+            "example": "[\"1\",\"2\",\"3\",\"4\"]",
             "description": "",
             "required": true
           },
@@ -1658,6 +1615,14 @@
             "in": "header",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
             "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "type": "string",
+            "example": "1",
+            "description": "",
             "required": true
           },
           {
@@ -1694,7 +1659,7 @@
           },
           {
             "in": "formData",
-            "name": "contractNote",
+            "name": "note",
             "type": "string",
             "example": "example",
             "description": "",
@@ -1705,6 +1670,22 @@
             "name": "attachments",
             "type": "string",
             "example": "[\"https://example.com\"]",
+            "description": "",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "eventIds",
+            "type": "string",
+            "example": "[\"1\",\"2\",\"3\",\"4\"]",
+            "description": "",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "clientId",
+            "type": "string",
+            "example": "1",
             "description": "",
             "required": true
           }
@@ -2379,6 +2360,68 @@
         }
       }
     },
+    "/api/payment/create-payment": {
+      "put": {
+        "tags": ["Payment"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "totalPayment",
+            "type": "number",
+            "example": "",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "initPayment",
+            "type": "number",
+            "example": "",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "discount",
+            "type": "number",
+            "example": "1",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "status",
+            "type": "string",
+            "example": "",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "methodPayment",
+            "type": "string",
+            "example": "transferring bank | cashing in",
+            "description": ""
+          },
+          {
+            "in": "formData",
+            "name": "note",
+            "type": "string",
+            "example": "",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/payment/update-payment/{:_id}": {
       "put": {
         "tags": ["Payment"],
@@ -2416,8 +2459,8 @@
           {
             "in": "formData",
             "name": "discount",
-            "type": "string",
-            "example": "10%",
+            "type": "number",
+            "example": "1",
             "description": ""
           },
           {
@@ -2569,7 +2612,7 @@
             "required": true
           },
           {
-            "name": "contractId",
+            "name": "paymentId",
             "in": "formData",
             "type": "string",
             "example": "example"
@@ -2602,8 +2645,8 @@
           {
             "name": "dateTime",
             "in": "formData",
-            "type": "date",
-            "example": "2023-11-11"
+            "type": "timestamps",
+            "example": "2023-12-09T16:03:23.952+00:00"
           },
           {
             "name": "status",
@@ -2657,10 +2700,10 @@
             "example": "example"
           },
           {
-            "name": "contractId",
+            "name": "paymentId",
             "in": "formData",
             "type": "string",
-            "example": "example"
+            "example": "1"
           },
           {
             "name": "serviceIds",
@@ -2690,8 +2733,8 @@
           {
             "name": "dateTime",
             "in": "formData",
-            "type": "date",
-            "example": "2023-11-11"
+            "type": "timestamps",
+            "example": "2023-12-09T16:03:23.952+00:00"
           },
           {
             "name": "status",

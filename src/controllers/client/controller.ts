@@ -19,7 +19,7 @@ export const createInfoClient = async (req: Request, res: Response, next: NextFu
             fullName,
             phoneNumber,
             address,
-            dataOfBirth: new Date(dateOfBirth),
+            dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : new Date(),
             gender,
         });
         return next(createHttpSuccess(200, { client: createClient }));
@@ -39,7 +39,14 @@ export const updateInfoClient = async (req: Request, res: Response, next: NextFu
         }
         await ClientQuery.updateOne(
             { _id: foundClient._id },
-            { email, fullName, phoneNumber, address, dateOfBirth, gender },
+            {
+                email,
+                fullName,
+                phoneNumber,
+                address,
+                dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : new Date(foundClient.dateOfBirth),
+                gender,
+            },
         );
         return next(createHttpSuccess(200));
     } catch (error) {

@@ -20,9 +20,9 @@ export const paymentHelper = (type: PaymentType, contract: ContractSchemaType) =
     return result;
 };
 
-export const remainingPaymentHelper = (totalPayment: number, initialPayment: number, discount?: number) => {
-    const discountPayment = totalPayment * (discount ? discount / 100 : 0);
-    console.log('Discount', discountPayment);
-    const remainingPayment = totalPayment - discountPayment - initialPayment;
-    return remainingPayment;
+export const discountPaymentHelper = (totalPayment: number, discount?: number) => {
+    if (discount) {
+        return totalPayment - totalPayment * (discount / 100);
+    }
+    return totalPayment;
 };
