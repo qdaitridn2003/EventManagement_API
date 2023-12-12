@@ -20,3 +20,15 @@ employeeRoutes
 employeeRoutes
     .route('/upload-avatar-employee')
     .post(Authorization, ImageHandler.single('avatar'), Controller.uploadEmployeeAvatar);
+
+employeeRoutes
+    .route('/get-employee-profile/:_id')
+    .delete(Authorization, CheckRole(Identify.Admin), Controller.deleteEmployee);
+
+employeeRoutes
+    .route('/delete-employee/:_id')
+    .delete(Authorization, CheckRole(Identify.Admin), Controller.deleteEmployee);
+
+employeeRoutes
+    .route('/edit-role-employee/:_id')
+    .put(Authorization, CheckRole(Identify.Admin), Controller.editEmployeeRole);

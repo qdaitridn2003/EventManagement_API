@@ -290,6 +290,55 @@
         }
       }
     },
+    "/api/auth/delete-account": {
+      "delete": {
+        "tags": ["Auth"],
+        "description": "",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "description": "Delete own account",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/auth/delete-account/{:_id}": {
+      "delete": {
+        "tags": ["Auth"],
+        "description": "",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "description": "Must be admin access token",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "type": "string",
+            "example": "1",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/role/create-role": {
       "post": {
         "tags": ["Role"],
@@ -417,6 +466,27 @@
         "tags": ["Role"],
         "description": "",
         "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/role/get-all-role": {
+      "get": {
+        "tags": ["Role"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "description": "Must be admin access token",
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -2050,6 +2120,70 @@
             "example": "",
             "type": "file",
             "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/employee/delete-employee/{:_id}": {
+      "delete": {
+        "tags": ["Employee"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "description": "Must be admin access token",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "example": "1",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/employee/edit-role-employee/{:_id}": {
+      "put": {
+        "tags": ["Employee"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "type": "string",
+            "description": "Must be admin access token",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "example": "1",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "roleId",
+            "required": true,
+            "type": "string",
+            "example": "1",
+            "description": ""
           }
         ],
         "responses": {

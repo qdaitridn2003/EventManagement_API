@@ -8,11 +8,11 @@ import {
     verifyOTPHelper,
     TimeHandler,
 } from '../../utils';
-import { AuthQuery, EmployeeQuery, RoleQuery } from '../../models';
+import { AuthQuery, ContractQuery, EmployeeQuery, EventQuery, RoleQuery, TransportQuery } from '../../models';
 import createHttpError from 'http-errors';
 import { NodeMailerParty } from '../../third-party';
 import { RoleSchemaType } from '../../types';
-import { OtpType } from '../../constants';
+import { Identify, OtpType } from '../../constants';
 
 export const signUpAccount = async (req: Request, res: Response, next: NextFunction) => {
     const { username, password, confirmPassword, roleId } = req.body;
@@ -285,6 +285,38 @@ export const getNewAccessToken = async (req: Request, res: Response, next: NextF
             return next(createHttpSuccess(200, { accessToken: newAccessToken, refreshToken }));
         }
         next(createHttpError(401, {}, 'Your sign in period was expired'));
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const deleteAccount = async (req: Request, res: Response, next: NextFunction) => {
+    const { auth_id } = res.locals;
+    const { _id } = req.params;
+
+    try {
+        const foundAccount = await AuthQuery.findOne({ _id: _id ? _id : auth_id }).populate('role');
+
+        if (!foundAccount) {
+            return next(createHttpError(404, 'Not found account'));
+        }
+
+        if ((foundAccount.role as RoleSchemaType).identify === Identify.Admin) {
+            return next(createHttpError(403, 'You can not delete admin account'));
+        }
+
+        await AuthQuery.deleteOne({ _id: foundAccount._id });
+        const foundDeletedEmployee = await EmployeeQuery.findOneAndDelete({ auth: foundAccount._id });
+        console.log(foundDeletedEmployee);
+        await EventQuery.updateMany(
+            { employees: foundDeletedEmployee },
+            { $pull: { employees: foundDeletedEmployee?._id } },
+        );
+        await ContractQuery.updateMany({ createdBy: foundDeletedEmployee?._id }, { createdBy: null });
+        await ContractQuery.updateMany({ updatedBy: foundDeletedEmployee?._id }, { updatedBy: null });
+
+        await TransportQuery.updateMany({ employee: foundDeletedEmployee?._id }, { employee: null });
+        next(createHttpSuccess(200, {}));
     } catch (error) {
         next(error);
     }

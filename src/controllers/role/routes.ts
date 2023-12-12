@@ -9,3 +9,4 @@ roleRoutes.route('/get-list-role').get(Controller.getListRole);
 roleRoutes.route('/create-role').post(Authorization, CheckRole(Identify.Admin), Controller.createRole);
 roleRoutes.route('/edit-role/:_id').put(Authorization, CheckRole(Identify.Admin), Controller.editRole);
 roleRoutes.route('/delete-role/:_id').delete(Authorization, CheckRole(Identify.Admin), Controller.deleteRole);
+roleRoutes.route('/get-all-role').get(Authorization, CheckRole(Identify.Admin), Controller.getAllRole);

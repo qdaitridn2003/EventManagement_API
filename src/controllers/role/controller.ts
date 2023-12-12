@@ -54,3 +54,14 @@ export const getListRole = async (req: Request, res: Response, next: NextFunctio
         return next(error);
     }
 };
+
+export const getAllRole = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const result = await RoleQuery.find()
+            .select({ createdAt: false, updatedAt: false, __v: false })
+            .sort('identify');
+        return next(createHttpSuccess(200, { roles: result }));
+    } catch (error) {
+        return next(error);
+    }
+};

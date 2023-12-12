@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { OtherValidator, createHttpSuccess, paginationHelper, searchHelper } from '../../utils';
-import { AuthQuery, EmployeeQuery, RoleQuery } from '../../models';
+import { AuthQuery, ContractQuery, EmployeeQuery, EventQuery, RoleQuery, TransportQuery } from '../../models';
 import { FirebaseParty } from '../../third-party';
-import { UploadType } from '../../constants';
+import { Identify, UploadType } from '../../constants';
 import createHttpError from 'http-errors';
+import { RoleSchemaType } from '../../types';
 
 export const registerEmployeeProfile = async (req: Request, res: Response, next: NextFunction) => {
     const { authId, fullName, dateOfBirth, gender, phoneNumber, address } = req.body;
@@ -137,6 +138,45 @@ export const uploadEmployeeAvatar = async (req: Request, res: Response, next: Ne
         const avatarUrl = await FirebaseParty.uploadImage(avatar as Express.Multer.File, UploadType.Avatar);
         await EmployeeQuery.updateOne({ _id: foundEmployee._id }, { avatar: avatarUrl });
         return next(createHttpSuccess(200, {}));
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const deleteEmployee = async (req: Request, res: Response, next: NextFunction) => {
+    const { _id } = req.params;
+    try {
+        const foundEmployee = await EmployeeQuery.findOne({ _id });
+        if (!foundEmployee) {
+            return next(createHttpError(404, 'Not found employee'));
+        }
+
+        const foundEmployeeAccount = await AuthQuery.findOne({ _id: foundEmployee.auth }).populate('role');
+        if ((foundEmployeeAccount?.role as RoleSchemaType).identify === Identify.Admin) {
+            return next(createHttpError(403, 'You cannot delete admin profile'));
+        }
+
+        await EventQuery.updateMany({ employees: foundEmployee }, { $pull: { employees: foundEmployee._id } });
+        await ContractQuery.updateMany({ createdBy: foundEmployee._id }, { createdBy: null });
+        await ContractQuery.updateMany({ updatedBy: foundEmployee._id }, { updatedBy: null });
+        await TransportQuery.updateMany({ employee: foundEmployee._id }, { employee: null });
+        await AuthQuery.deleteOne({ _id: foundEmployee?.auth });
+        next(createHttpSuccess(200, {}));
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const editEmployeeRole = async (req: Request, res: Response, next: NextFunction) => {
+    const { _id } = req.params;
+    const { roleId } = req.body;
+    try {
+        const foundEmployee = await EmployeeQuery.findOne({ _id });
+        if (!foundEmployee) {
+            return next(createHttpError(404, 'Not found employee'));
+        }
+        await AuthQuery.updateOne({ _id: foundEmployee.auth }, { role: roleId });
+        next(createHttpSuccess(200, {}));
     } catch (error) {
         next(error);
     }
