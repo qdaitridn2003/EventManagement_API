@@ -22,10 +22,6 @@ employeeRoutes
     .post(Authorization, ImageHandler.single('avatar'), Controller.uploadEmployeeAvatar);
 
 employeeRoutes
-    .route('/get-employee-profile/:_id')
-    .delete(Authorization, CheckRole(Identify.Admin), Controller.deleteEmployee);
-
-employeeRoutes
     .route('/delete-employee/:_id')
     .delete(Authorization, CheckRole(Identify.Admin), Controller.deleteEmployee);
 

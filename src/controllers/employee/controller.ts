@@ -156,6 +156,7 @@ export const deleteEmployee = async (req: Request, res: Response, next: NextFunc
             return next(createHttpError(403, 'You cannot delete admin profile'));
         }
 
+        await EmployeeQuery.deleteOne({ _id: foundEmployee._id });
         await EventQuery.updateMany({ employees: foundEmployee }, { $pull: { employees: foundEmployee._id } });
         await ContractQuery.updateMany({ createdBy: foundEmployee._id }, { createdBy: null });
         await ContractQuery.updateMany({ updatedBy: foundEmployee._id }, { updatedBy: null });
