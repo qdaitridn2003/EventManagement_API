@@ -90,10 +90,6 @@ export const getListClient = async (req: Request, res: Response, next: NextFunct
             .populate({
                 path: 'contracts',
                 select: { createdAt: false, updatedAt: false, __v: false },
-                populate: {
-                    path: 'payment',
-                    select: { createdAt: false, updatedAt: false, __v: false },
-                },
             })
             .select({ createdAt: false, updatedAt: false, __v: false })
             .sort({ createdAt: 'descending' });
