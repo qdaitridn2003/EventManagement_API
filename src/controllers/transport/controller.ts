@@ -33,9 +33,6 @@ export const updateTransport = async (req: Request, res: Response, next: NextFun
     const { _id } = req.params;
     const { employeeId, licensePlate, status, name, brand, color, availability } = req.body;
 
-    if (!employeeId) {
-        return next(createHttpError(400, 'Employee must be have'));
-    }
     try {
         const foundTransport = await TransportQuery.findOne({ _id });
 
