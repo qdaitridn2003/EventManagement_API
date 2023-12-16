@@ -7,7 +7,7 @@ import { Identify, UploadType } from '../../constants';
 
 export const createEvent = async (req: Request, res: Response, next: NextFunction) => {
     const { name, dateTime, status, note, attachments } = req.body;
-    const { paymentId, transportIds, serviceIds, employeeIds, timelineIds, equipmentIds } = req.body;
+    const { paymentId, transportIds, serviceId, employeeIds, timelineIds, equipmentIds } = req.body;
 
     if (!name) {
         return next(createHttpError(400, 'Event name must be not empty'));
@@ -17,7 +17,7 @@ export const createEvent = async (req: Request, res: Response, next: NextFunctio
         const createdEvent = await EventQuery.create({
             name,
             payment: paymentId,
-            services: serviceIds,
+            service: serviceId,
             employees: employeeIds,
             timelines: timelineIds,
             transports: transportIds,
@@ -38,7 +38,7 @@ export const updateEvent = async (req: Request, res: Response, next: NextFunctio
     const {
         name,
         paymentId,
-        serviceIds,
+        serviceId,
         employeeIds,
         timelineIds,
         equipmentIds,
@@ -58,7 +58,7 @@ export const updateEvent = async (req: Request, res: Response, next: NextFunctio
             {
                 name,
                 payment: paymentId,
-                services: serviceIds,
+                service: serviceId,
                 employees: employeeIds,
                 timelines: timelineIds,
                 equipments: equipmentIds,
@@ -98,11 +98,17 @@ export const getDetailEvent = async (req: Request, res: Response, next: NextFunc
         const foundEvent = await EventQuery.findOne({ _id })
             .select({ createdAt: false, updatedAt: false, __v: false })
             .populate('payment', { createdAt: false, updatedAt: false, __v: false })
-            .populate('services', { createdAt: false, updatedAt: false, __v: false })
+            .populate({
+                path: 'transports',
+                select: { createdAt: false, updatedAt: false, __v: false },
+                populate: { path: 'employee' },
+            })
+            .populate('service', { createdAt: false, updatedAt: false, __v: false })
             .populate('employees', { createdAt: false, updatedAt: false, __v: false })
             .populate('timelines', { createdAt: false, updatedAt: false, __v: false })
             .populate('equipments', { createdAt: false, updatedAt: false, __v: false });
-        return next(createHttpSuccess(200, { event: foundEvent }));
+        const foundContract = await ContractQuery.find({ events: foundEvent }).select({ _id: true, name: true });
+        return next(createHttpSuccess(200, { event: foundEvent, contract: foundContract }));
     } catch (error) {
         return next(error);
     }
@@ -117,7 +123,7 @@ export const getListEvent = async (req: Request, res: Response, next: NextFuncti
             .select({ createdAt: false, updatedAt: false, __v: false })
             .sort({ createdAt: 'descending' })
             .populate('payment', { createdAt: false, updatedAt: false, __v: false })
-            .populate('services', { createdAt: false, updatedAt: false, __v: false })
+            .populate('service', { createdAt: false, updatedAt: false, __v: false })
             .populate('employees', { createdAt: false, updatedAt: false, __v: false })
             .populate('timelines', { createdAt: false, updatedAt: false, __v: false })
             .populate('equipments', { createdAt: false, updatedAt: false, __v: false })

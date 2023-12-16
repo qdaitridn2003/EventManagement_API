@@ -2503,7 +2503,7 @@
           },
           {
             "in": "formData",
-            "name": "initPayment",
+            "name": "initialPayment",
             "type": "number",
             "example": "",
             "description": ""
@@ -2740,10 +2740,10 @@
             "example": "example"
           },
           {
-            "name": "serviceIds",
+            "name": "serviceId",
             "in": "formData",
-            "type": "string array",
-            "example": "[\"example\"]"
+            "type": "string",
+            "example": "1"
           },
           {
             "name": "employeeIds",
@@ -2828,10 +2828,10 @@
             "example": "1"
           },
           {
-            "name": "serviceIds",
+            "name": "serviceId",
             "in": "formData",
             "type": "string array",
-            "example": "[\"example\"]"
+            "example": "1"
           },
           {
             "name": "employeeIds",

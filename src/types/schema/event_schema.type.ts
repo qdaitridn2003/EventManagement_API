@@ -9,7 +9,7 @@ import { TransportSchemaType } from './transport_schema.type';
 export type EventSchemaType = {
     _id: Schema.Types.ObjectId;
     employees: Schema.Types.ObjectId[] | EmployeeSchemaType[];
-    services: Schema.Types.ObjectId[] | ServiceSchemaType[];
+    service: Schema.Types.ObjectId | ServiceSchemaType;
     timelines: Schema.Types.ObjectId[] | TimelineSchemaType[];
     equipments: Schema.Types.ObjectId[] | ItemSchemaType[];
     transports: Schema.Types.ObjectId[] | TransportSchemaType[];
