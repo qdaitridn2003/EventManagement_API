@@ -6,13 +6,13 @@ import { createHttpSuccess, discountPaymentHelper, paginationHelper } from '../.
 export const createPayment = async (req: Request, res: Response, next: NextFunction) => {
     const { totalPayment, initialPayment, discount, status, methodPayment, note } = req.body;
 
-    if (!totalPayment && !initialPayment) {
-        return next(createHttpError(400, 'Total and initial payment must be not empty or equal to zero'));
+    if (!totalPayment) {
+        return next(createHttpError(400, 'Total payment must be not empty or equal to zero'));
     }
 
     try {
         const handledTotalPayment = discountPaymentHelper(totalPayment, discount);
-        const remainingPayment = handledTotalPayment - initialPayment;
+        const remainingPayment = handledTotalPayment - (initialPayment ?? 0);
         const createdPayment = await PaymentQuery.create({
             totalPayment,
             initialPayment,

@@ -945,7 +945,6 @@
             "in": "formData",
             "name": "categoryId",
             "type": "string",
-            "required": true,
             "example": "1",
             "description": ""
           }
@@ -1414,7 +1413,6 @@
             "in": "formData",
             "name": "name",
             "type": "string",
-            "required": true,
             "example": "",
             "description": ""
           },
@@ -1640,32 +1638,28 @@
             "name": "note",
             "type": "string",
             "example": "example",
-            "description": "",
-            "required": true
+            "description": ""
           },
           {
             "in": "formData",
             "name": "attachments",
             "type": "string",
             "example": "[\"https://example.com\"]",
-            "description": "",
-            "required": true
+            "description": ""
           },
           {
             "in": "formData",
             "name": "eventIds",
             "type": "string",
             "example": "[\"1\",\"2\",\"3\",\"4\"]",
-            "description": "",
-            "required": true
+            "description": ""
           },
           {
             "in": "formData",
             "name": "clientId",
             "type": "string",
             "example": "1",
-            "description": "",
-            "required": true
+            "description": ""
           }
         ],
         "responses": {
@@ -1700,40 +1694,35 @@
             "name": "name",
             "type": "string",
             "example": "example",
-            "description": "",
-            "required": true
+            "description": ""
           },
           {
             "in": "formData",
             "name": "startDate",
             "type": "string",
             "example": "2023-01-01",
-            "description": "",
-            "required": true
+            "description": ""
           },
           {
             "in": "formData",
             "name": "endDate",
             "type": "string",
             "example": "2023-12-31",
-            "description": "",
-            "required": true
+            "description": ""
           },
           {
             "in": "formData",
             "name": "status",
             "type": "string",
             "example": "active | cancelled | completed",
-            "description": "",
-            "required": true
+            "description": ""
           },
           {
             "in": "formData",
             "name": "note",
             "type": "string",
             "example": "example",
-            "description": "",
-            "required": true
+            "description": ""
           },
           {
             "in": "formData",
@@ -1748,16 +1737,14 @@
             "name": "eventIds",
             "type": "string",
             "example": "[\"1\",\"2\",\"3\",\"4\"]",
-            "description": "",
-            "required": true
+            "description": ""
           },
           {
             "in": "formData",
             "name": "clientId",
             "type": "string",
             "example": "1",
-            "description": "",
-            "required": true
+            "description": ""
           }
         ],
         "responses": {
@@ -2495,7 +2482,7 @@
       }
     },
     "/api/payment/create-payment": {
-      "put": {
+      "post": {
         "tags": ["Payment"],
         "description": "",
         "parameters": [
@@ -2511,6 +2498,7 @@
             "name": "totalPayment",
             "type": "number",
             "example": "",
+            "required": true,
             "description": ""
           },
           {

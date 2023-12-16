@@ -4,7 +4,7 @@ import { PaymentSchemaType } from '../../types';
 const paymentSchema = new Schema<PaymentSchemaType>(
     {
         _id: { type: Schema.Types.ObjectId, auto: true },
-        initialPayment: { type: Schema.Types.Number },
+        initialPayment: { type: Schema.Types.Number, default: 0 },
         remainingPayment: { type: Schema.Types.Number },
         totalPayment: { type: Schema.Types.Number },
         discount: { type: Schema.Types.Number, default: 0 },

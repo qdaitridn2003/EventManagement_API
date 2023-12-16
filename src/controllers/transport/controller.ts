@@ -13,27 +13,6 @@ export const createTransport = async (req: Request, res: Response, next: NextFun
     }
 
     try {
-        const roleName = 'Tài Xế';
-
-        const driverRole = await RoleQuery.findOne({ name: roleName });
-
-        if (!driverRole) {
-            return next(createHttpError(400, 'Driver role not found'));
-        }
-
-        const roleId = driverRole._id;
-
-        const authIds = await AuthQuery.find({ role: roleId }).select({ _id: true });
-
-        const employeeWithDriverRole = await EmployeeQuery.findOne({
-            _id: employeeId,
-            auth: { $in: authIds },
-        }).select({ _id: true });
-
-        if (!employeeWithDriverRole) {
-            return next(createHttpError(400, 'Employee is not a driver'));
-        }
-
         const createTransport = await TransportQuery.create({
             employee: employeeId,
             licensePlate,
@@ -62,25 +41,6 @@ export const updateTransport = async (req: Request, res: Response, next: NextFun
 
         if (!foundTransport) {
             return next(createHttpError(404, 'Not found transport'));
-        }
-
-        const driverRoleName = 'Tài Xế';
-        const driverRole = await RoleQuery.findOne({ name: driverRoleName });
-
-        if (!driverRole) {
-            return next(createHttpError(400, 'Driver role not found'));
-        }
-
-        const roleId = driverRole._id;
-        const authIds = await AuthQuery.find({ role: roleId }).select({ _id: true });
-
-        const isEmployeeDriver = await EmployeeQuery.exists({
-            _id: employeeId,
-            auth: { $in: authIds },
-        });
-
-        if (!isEmployeeDriver) {
-            return next(createHttpError(400, 'Employee is not a driver'));
         }
 
         await TransportQuery.updateOne(
