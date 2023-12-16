@@ -138,7 +138,9 @@ export const getListContract = async (req: Request, res: Response, next: NextFun
 
     try {
         const query = ContractQuery.find()
-            .populate('employee', { createdAt: false, updatedAt: false, __v: false })
+            .populate('createdBy', { createdAt: false, updatedAt: false, __v: false })
+            .populate('updatedBy', { createdAt: false, updatedAt: false, __v: false })
+            .populate('events', { createdAt: false, updatedAt: false, __v: false })
             .select({ createdAt: false, updatedAt: false, __v: false })
             .sort({ createdAt: 'descending' });
 
