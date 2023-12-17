@@ -5,6 +5,7 @@ import { FirebaseParty } from '../../third-party';
 import { Identify, UploadType } from '../../constants';
 import createHttpError from 'http-errors';
 import { RoleSchemaType } from '../../types';
+import sharp from 'sharp';
 
 export const registerEmployeeProfile = async (req: Request, res: Response, next: NextFunction) => {
     const { authId, fullName, dateOfBirth, gender, phoneNumber, address } = req.body;
@@ -135,7 +136,13 @@ export const uploadEmployeeAvatar = async (req: Request, res: Response, next: Ne
         if (!foundEmployee) {
             return next(createHttpError(404, 'Not found employee'));
         }
-        const avatarUrl = await FirebaseParty.uploadImage(avatar as Express.Multer.File, UploadType.Avatar);
+        const avatarBuffer = await sharp(avatar?.buffer)
+            .resize(480, 480)
+            .toBuffer();
+        const avatarUrl = await FirebaseParty.uploadImage(
+            { ...(avatar as Express.Multer.File), buffer: avatarBuffer },
+            UploadType.Avatar,
+        );
         await EmployeeQuery.updateOne({ _id: foundEmployee._id }, { avatar: avatarUrl });
         return next(createHttpSuccess(200, {}));
     } catch (error) {

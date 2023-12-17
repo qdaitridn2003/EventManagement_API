@@ -2573,7 +2573,7 @@
           },
           {
             "in": "formData",
-            "name": "initPayment",
+            "name": "initialPayment",
             "type": "number",
             "example": "",
             "description": ""

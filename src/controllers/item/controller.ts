@@ -4,6 +4,7 @@ import { createHttpSuccess, paginationHelper, searchHelper } from '../../utils';
 import createHttpError from 'http-errors';
 import { ArrangeConstant, UploadType } from '../../constants';
 import { FirebaseParty } from '../../third-party';
+import sharp from 'sharp';
 
 export const createInfoItem = async (req: Request, res: Response, next: NextFunction) => {
     const { categoryId, name, description, quantityTotal } = req.body;
@@ -130,7 +131,13 @@ export const uploadImageItem = async (req: Request, res: Response, next: NextFun
         if (!foundItem) {
             return next(createHttpError(404, 'Not found item'));
         }
-        const imageUrl = await FirebaseParty.uploadImage(image as Express.Multer.File, UploadType.Item);
+        const imageBuffer = await sharp(image?.buffer)
+            .resize(480, 480)
+            .toBuffer();
+        const imageUrl = await FirebaseParty.uploadImage(
+            { ...(image as Express.Multer.File), buffer: imageBuffer },
+            UploadType.Item,
+        );
         await ItemQuery.updateOne({ _id: foundItem._id }, { image: imageUrl });
         return next(createHttpSuccess(200, {}));
     } catch (error) {

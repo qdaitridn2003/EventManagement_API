@@ -4,6 +4,7 @@ import { OtherValidator, createHttpSuccess, paginationHelper, searchHelper } fro
 import createHttpError from 'http-errors';
 import { FirebaseParty } from '../../third-party';
 import { UploadType } from '../../constants';
+import sharp from 'sharp';
 
 export const createInfoClient = async (req: Request, res: Response, next: NextFunction) => {
     const { email, fullName, dateOfBirth, gender, phoneNumber, address } = req.body;
@@ -121,7 +122,13 @@ export const uploadAvatarClient = async (req: Request, res: Response, next: Next
         if (!foundClient) {
             return next(createHttpError(404, 'Not found client'));
         }
-        const avatarUrl = await FirebaseParty.uploadImage(avatar as Express.Multer.File, UploadType.Avatar);
+        const avatarBuffer = await sharp(avatar?.buffer)
+            .resize(480, 480)
+            .toBuffer();
+        const avatarUrl = await FirebaseParty.uploadImage(
+            { ...(avatar as Express.Multer.File), buffer: avatarBuffer },
+            UploadType.Avatar,
+        );
         await ClientQuery.updateOne({ _id: foundClient._id }, { avatar: avatarUrl });
         return next(createHttpSuccess(200, {}));
     } catch (error) {

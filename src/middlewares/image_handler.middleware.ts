@@ -12,7 +12,7 @@ const imageHandler = multer({
         }
     },
     limits: {
-        fieldSize: 100 * 1000, //0.1MB 100KB
+        fieldSize: 1024 * 10, //0.1MB 100KB
     },
 });
 

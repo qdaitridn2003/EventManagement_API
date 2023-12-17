@@ -4,6 +4,7 @@ import { createHttpSuccess, paginationHelper, searchHelper } from '../../utils';
 import createHttpError from 'http-errors';
 import { FirebaseParty } from '../../third-party';
 import { UploadType } from '../../constants';
+import sharp from 'sharp';
 
 export const createTransport = async (req: Request, res: Response, next: NextFunction) => {
     const { employeeId, licensePlate, status, name, brand, color, availability } = req.body;
@@ -121,7 +122,13 @@ export const uploadImageTransport = async (req: Request, res: Response, next: Ne
         if (!foundTransport) {
             return next(createHttpError(404, 'Not found transport'));
         }
-        const imageUrl = await FirebaseParty.uploadImage(image as Express.Multer.File, UploadType.Transport);
+        const imageBuffer = await sharp(image?.buffer)
+            .resize(480, 480, { fit: 'fill' })
+            .toBuffer();
+        const imageUrl = await FirebaseParty.uploadImage(
+            { ...(image as Express.Multer.File), buffer: imageBuffer },
+            UploadType.Transport,
+        );
         await TransportQuery.updateOne({ _id: foundTransport._id }, { image: imageUrl });
         return next(createHttpSuccess(200, {}));
     } catch (error) {

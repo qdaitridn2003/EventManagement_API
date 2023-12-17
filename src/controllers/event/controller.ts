@@ -4,6 +4,7 @@ import { ContractQuery, EventQuery, PaymentQuery, TransportQuery } from '../../m
 import { createHttpSuccess, paginationHelper, searchHelper } from '../../utils';
 import { FirebaseParty } from '../../third-party';
 import { Identify, UploadType } from '../../constants';
+import sharp from 'sharp';
 
 export const createEvent = async (req: Request, res: Response, next: NextFunction) => {
     const { name, dateTime, status, note, attachments } = req.body;
@@ -155,7 +156,8 @@ export const uploadImagesEvent = async (req: Request, res: Response, next: NextF
             return next(createHttpError(404, 'Not found event'));
         }
         const imageUrls = (images as Express.Multer.File[]).map(async (image: Express.Multer.File) => {
-            return await FirebaseParty.uploadImage(image, UploadType.Event);
+            const imageBuffer = await sharp(image.buffer).resize(720, 480, { fit: 'fill' }).toBuffer();
+            return await FirebaseParty.uploadImage({ ...image, buffer: imageBuffer }, UploadType.Event);
         });
         await EventQuery.updateOne({ _id }, { images: imageUrls });
         return next(createHttpSuccess(200, {}));
@@ -172,7 +174,13 @@ export const uploadImageEvent = async (req: Request, res: Response, next: NextFu
         if (!foundEvent) {
             return next(createHttpError(404, 'Not found event'));
         }
-        const imageUrl = await FirebaseParty.uploadImage(image as Express.Multer.File, UploadType.Event);
+        const imageBuffer = await sharp(image?.buffer)
+            .resize(720, 480, { fit: 'fill' })
+            .toBuffer();
+        const imageUrl = await FirebaseParty.uploadImage(
+            { ...(image as Express.Multer.File), buffer: imageBuffer },
+            UploadType.Event,
+        );
         await EventQuery.updateOne({ _id }, { $push: { images: imageUrl } });
         return next(createHttpSuccess(200, {}));
     } catch (error) {
