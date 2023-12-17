@@ -11,7 +11,7 @@ const jwtHandler = {
                     ApiConfigs.accessTokenKey,
                     {
                         algorithm: 'HS256',
-                        expiresIn: '1h',
+                        // expiresIn: '1h',
                     },
                     (error, token) => {
                         if (error) {
