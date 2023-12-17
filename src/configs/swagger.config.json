@@ -1729,8 +1729,7 @@
             "name": "attachments",
             "type": "string",
             "example": "[\"https://example.com\"]",
-            "description": "",
-            "required": true
+            "description": ""
           },
           {
             "in": "formData",
