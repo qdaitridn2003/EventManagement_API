@@ -109,7 +109,24 @@ export const getDetailEvent = async (req: Request, res: Response, next: NextFunc
             .populate('timelines', { createdAt: false, updatedAt: false, __v: false })
             .populate('equipments', { createdAt: false, updatedAt: false, __v: false });
         const foundContract = await ContractQuery.find({ events: foundEvent }).select({ _id: true, name: true });
-        return next(createHttpSuccess(200, { event: foundEvent, contract: foundContract }));
+        return next(
+            createHttpSuccess(200, {
+                event: {
+                    _id: foundEvent?._id,
+                    name: foundEvent?.name,
+                    contracts: foundContract,
+                    employees: foundEvent?.employees,
+                    timelines: foundEvent?.timelines,
+                    equipments: foundEvent?.equipments,
+                    service: foundEvent?.service,
+                    payment: foundEvent?.payment,
+                    status: foundEvent?.status,
+                    images: foundEvent?.images,
+                    attachments: foundEvent?.attachments,
+                    dateTime: foundEvent?.dateTime,
+                },
+            }),
+        );
     } catch (error) {
         return next(error);
     }
